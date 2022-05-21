@@ -1,0 +1,129 @@
+---
+title: "AlgEpi question catalog"
+author: "Johannes Hausmann, Luis Kress"
+date: "`r Sys.Date()`"
+#knit: pagedown::chrome_print
+output:
+  html_document:
+    css: css/test.css
+---
+
+> Written and answered on a best effort basis. It might contain wrong answers!
+
+## 1. Introduction into Epigenetics
+
+### What is epigenetics?
+
+### What happens in DNA methylation?
+
+### How can DNA methylation affect gene expression?
+
+### What are histone modifcations?
+
+### Which histone modifications are associated with active transcriptionor heterochromatin?
+
+### What is Waddington‘s epigenetic landscape model?
+
+### What is imprinting?
+
+### Explain how mosaic colouring of cat fur comes about?
+
+## 2. Understanding gene expression with RNA sequencing
+
+### What is RNA-seq?
+
+### How to obtain RNA counts?
+
+### Why do we need to normalize RNA-seq read counts?
+
+### What are TPM and RPKM normalization?
+
+### Why is TPM better?
+
+### How to quantify transcript expression?
+
+### What is the effective length of a transcript?
+
+### Which biases does Salmon take into account?
+
+## 3. Analysis of differential expression data and interpretation
+
+### Which normalization does DEseq2 use?
+
+### What is the advantage of the negative binomial compared to the Possion distribution, when looking at counts?
+
+### What is a p-value?
+
+### What does FDR mean
+
+### Why do I need to do FDR?
+
+### How does DEseq2 fit the dispersion for genes?
+
+### What is an MA-plot, and how to read it?
+
+### What is the Gene Ontology?
+
+### How is functional enrichment estimated?
+
+## 4. Analysis of ChIP-seq data
+
+### What is ChIP-seq?
+
+### Why do we need to normalize ChIP-seq read counts?
+
+### What is indirect binding?
+
+### Explain basic quality steps for ChIP-seq data?
+
+### How does peak calling with MACS2 work?
+
+### What are the 6 core histone modifications?
+
+### How can ChIP-seq data be used to locate tissue-specifc enhancers?
+
+### Mention approaches for differential peak calling!
+
+## 5. Analysis of DNA methylation data
+
+### Why does sodium bisulfite treatment allow DNA methylation analysis?
+
+### Why is WGBS called the gold standard in DNA methylation analysis?
+
+### Why is bisulfite-seq data difficult to analyze?
+
+### What is the asymmetric mapping problem?
+
+### How do reduced representation mappers perform alignment?
+
+### What are PMDs and how does MethylSeekR find them?
+
+### How does RnBeads do differential methylation detection?
+
+### Why is epigenetics on cell-free DNA interesting?
+
+## 6. Analysis of open-chromatin data
+
+### What does open-chromatin mean?
+
+### Which assays are commonly used to profile open-chromatin regions?
+
+### How is NOMe-seq different to other assays?
+
+### What is the underlying idea of the gNOMeHMM approach for?
+
+### How does JAMM use mixture models for detecting peaks?
+
+### Which aspect of ATAC-seq data is specifically modelled by the HMM in the HMMRATAC method?
+
+### Which of the two assays are more similar ATAC-, NOMe- and, DNase1-seq and why?
+
+### How can you compute overlap between peak datasets?
+
+* Since peaks are just intervalls of genomic regions you can use BEDtools
+to intersect the region to find overlaps
+
+
+
+
+
