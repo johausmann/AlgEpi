@@ -30,10 +30,13 @@ output:
   +   both strands of the DNA are recognized and methylated
 
 * dynamic process
-  + active methylation (Dnmt)
-  + de-methylation (Tet)
-  
+  + active methylation (_de novo_: DNMT3a/b, conservation: DNMT1)
+  + de-methylation (TET1/2/3, BER)
+
+
 ![Methylation – De-methylation path of cytosine](media/lecture1_methylation.jpg){width=50%}
+
+* DNA methylation is also used to define the parental strand during replication
 
 ### How can DNA methylation affect gene expression?
 
@@ -47,6 +50,9 @@ output:
 
 * methylated = gene is silenced
   + TF can not bind &rarr; gene not expressed
+  
+* Methylated DNA can interfere (block or enhance) the binding of
+transcription factors
 
 * methyl binding proteins
   + recognize methylated CpG sites
@@ -58,7 +64,7 @@ output:
 * DNA is wrapped around Histones (protein of a certain type)
   + DNA + core histones &rarr; nucleosome
 
-* Addition of H1 (linke histone) &rarr; 30nm fibre (less active genes)
+* Addition of H1 (linker histone) &rarr; 30nm fibre (less active genes)
 
 * Biochemical modifications of core histones
   + influence affinity of linker histone (H1)  
@@ -71,7 +77,7 @@ output:
 ![Type of histone modifications and naming convention](media/lecture1_histone_modification.jpg){width=50%}
 
 
-### Which histone modifications are associated with active transcriptionor heterochromatin?
+### Which histone modifications are associated with active transcription or heterochromatin?
 
 * Acetylation of histones at N-terminal ends is associated with transcriptional activity
 
@@ -82,13 +88,31 @@ output:
 
 * Change of charge also effects interaction of nucleosomes among each other
     + Loss of 30nm filaments
+    
+* Good overview: [Link to overview table (https://doi.org/10.1186/s13059-019-1870-5)](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1870-5/tables/1)
 
 
 ### What is Waddington‘s epigenetic landscape model?
 
+* 1957: Conrad Waddington's concept of an epigenetic landscape to represent the process of cellular decision-making during development. At various points in this dynamic visual metaphor, the cell (represented by a ball) can take specific permitted trajectories, leading to different outcomes or cell fates.
+
+* Dellular differentiation can be considered an epigenetic phenomenon, largely governed by changes in “epigenetic landscape” rather than alterations in genetic inheritance
+
+![Waddington's Classical Epigenetic Landscape](media/lecture1_waddington.jpg){width=50%}
+
+
+* Chromatin structure of germ cells loosened and DNA
+methylation is reduced to a minmum &rarr; totipotent cell types
+
+* cell-type specific pattern established in following cell division cycles &rarr; cell-type specific gene expression
+
 ### What is imprinting?
 
+* Allele-specific expression of a genev (either from the maternal or paternal allele) via CpG methylation
+
 ### Explain how mosaic colouring of cat fur comes about?
+
+* Random activation or inactivation during embryonic development of one of the X chromosomes, where the responsible gene for fur coloring is located
 
 ## 2. Understanding gene expression with RNA sequencing
 
