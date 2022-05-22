@@ -8,17 +8,68 @@ output:
     css: css/test.css
 ---
 
-> Written and answered on a best effort basis. It might contain wrong answers!
+> Written and answered on a best effort basis. It might contain wrong answers.
+> Copying without questioning leads to your ruin!
 
 ## 1. Introduction into Epigenetics
 
 ### What is epigenetics?
 
+* studies on heritable changes
+  + of gene expression
+  + of cellular phenotype
+  
+* caused by mechanisms other than changes in the nucleotide sequence
+
 ### What happens in DNA methylation?
+
+* methylation of the 5th C-atom of cytosine
+  + 5-Methylcytosine
+
+* occurring in the CpG context
+  +   both strands of the DNA are recognized and methylated
+
+* dynamic process
+  + active methylation (Dnmt)
+  + de-methylation (Tet)
+  
+![Methylation – De-methylation path of cytosine](media/lecture1_methylation.jpg){width=50%}
 
 ### How can DNA methylation affect gene expression?
 
+
+* CpG islands are cytosine and guanin rich regions in the genome
+
+* conserved region in or close to the promoter
+
+* unmethylated = gene is active
+  + TF can bind &rarr; gene is expressed
+
+* methylated = gene is silenced
+  + TF can not bind &rarr; gene not expressed
+
+* methyl binding proteins
+  + recognize methylated CpG sites
+  + recruit histone modifying enzymes &rarr; chromatin changes
+
+
 ### What are histone modifcations?
+
+* DNA is wrapped around Histones (protein of a certain type)
+  + DNA + core histones &rarr; nucleosome
+
+* Addition of H1 (linke histone) &rarr; 30nm fibre (less active genes)
+
+* Biochemical modifications of core histones
+  + influence affinity of linker histone (H1)  
+  &rarr; consequence is change in chromatin structure  
+  
+
+* Histone tails (N-terminal) get modified
+  + position and type influence the outcome (activation or repression of transcription)
+  
+![Type of histone modifications and naming convention](media/lecture1_histone_modification.jpg){width=50%}
+
 
 ### Which histone modifications are associated with active transcriptionor heterochromatin?
 

@@ -1,4 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 body {
-  font-family: "Source Sans Pro", "Font Awesome 6 Free", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, 'Source Han Serif', 'Songti SC', serif;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
