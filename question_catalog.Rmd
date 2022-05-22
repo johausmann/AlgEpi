@@ -73,6 +73,17 @@ output:
 
 ### Which histone modifications are associated with active transcriptionor heterochromatin?
 
+* Acetylation of histones at N-terminal ends is associated with transcriptional activity
+
+* Lysins in terminal ends lead to positive charge that interacts with negative charge of DNA
+  
+* Acetylated lysins reduces positive charge
+  + Loss of affinity to DNA
+
+* Change of charge also effects interaction of nucleosomes among each other
+    + Loss of 30nm filaments
+
+
 ### What is Waddington‘s epigenetic landscape model?
 
 ### What is imprinting?
