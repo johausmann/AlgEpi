@@ -3,6 +3,7 @@ title: "AlgEpi question catalog"
 author: "Johannes Hausmann, Luis Kress"
 date: "`r Sys.Date()`"
 #knit: pagedown::chrome_print
+links-to-footnotes: true
 output:
   html_document:
     css: css/test.css
