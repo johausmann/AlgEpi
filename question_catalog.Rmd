@@ -174,15 +174,51 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### Why does sodium bisulfite treatment allow DNA methylation analysis?
 
+* Treatment of DNA with bisulphite &rarr; reaction converts unmethylated cytosines to uracils, methylated cytosine (5-methylcytosine) does not react with bisulphite.
+
+* During PCR uracil becomes thymine
+
 ### Why is WGBS called the gold standard in DNA methylation analysis?
+
+* Cytosine methylation across the entire genome at single base resolution
+
+* Unbiased
 
 ### Why is bisulfite-seq data difficult to analyze?
 
+* Up to four DNA strands have to be analysed
+
+* Mapping
+  * increased search space (more positions, where sequence can map)
+  * heterogenicity of methylation levels of individual CpGs in profiled cell populations ([Link to article](https://doi.org/10.1093/nar/gkaa120))
+
 ### What is the asymmetric mapping problem?
+
+![Asymmetric mapping problem](media/lecture5_asymmetric.png){width=70%}
+
+* bisulfite treatment: unmethylated cytosines are converted to thymines during the PCR amplification
+
+* This conversion must be take into account during alignment by allowing an asymmetric mapping
+  * thymine in a read mapped to a cytosine in the reference genome sequence &rarr; match 
+  * thymine in the genome sequence mapped to a cytosine in a read &rarr; mismatch.
 
 ### How do reduced representation mappers perform alignment?
 
+* Convert C to T in both reference and read
+
+* After the conversion conduct mapping with "normal" mapper (e.g. Bowtie)
+
 ### What are PMDs and how does MethylSeekR find them?
+
+* Partially methylated domains (PMDs) are characterized by highly disordered methylation, resulting in an average methylation clearly below the genomic background level
+
+* generally large &rarr; do not need to be modeled at the single CpG level (summarised using sliding window)
+
+* MethylSeekR uses sliding window of 101 CpGs
+
+* Calculate &alpha; values (model reads covering each CpG as being generated from beta binomial distribution)
+  * &alpha; < 1: favor polarized methylation close to 0 or 1
+  * &alpha; > 1: biased to intermediate methylation (~0.5)
 
 ### How does RnBeads do differential methylation detection?
 
