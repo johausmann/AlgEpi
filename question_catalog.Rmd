@@ -119,11 +119,61 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### What is RNA-seq?
 
+* Sequencing of mature mRNA molecules
+
+* Fragmentation of transcripts and reverse transcription to cDNA (hexamer priming)
+
+* Generation of ds-cDNA fragments and high throughput sequencing
+
+* Can be used to estimate gene expression or identify novel transcriptional changes
+
+
+![RNA-seq experiment workflow](media/lecture2_rna_seq.png){width=50%}
+
 ### How to obtain RNA counts?
 
+* Two strategies to map and quantify RNA-seq reads
+
+1. Mapping to the transcriptome  
+    + Reduced search space
+    + Can only assign reads if they originate from known transcripts
+    + No novel transcripts
+
+2. Mapping to the genome  
+    + Large search space for alignment
+    + Methods need to be splice-aware
+    + _in silico_ splice reads to consider introns
+  
+* Transcript counts are aggregated to obtain gene level counts
+
+* Genome mapping &rarr; count reads per gene bin 
+
+![RNA-seq counts](media/lecture2_rna_count.png){width=50%}
+
 ### Why do we need to normalize RNA-seq read counts?
+ 
+* gene expression measurement
+  + to compare expression between genes
+  + to compare expression of a gene between samples
+
+* An estimation of the average copy number of a gene‘s RNAs
+
+* We need to consider
+  + Differences in gene length  
+  &rarrw; longer genes produce more fragments  
+  
+  + Differences in library size
+    + Number of reads obtained per experiment by the sequencer is different
 
 ### What are TPM and RPKM normalization?
+
+* Metrics to adjust raw read counts for gene length and sequencing depth
+
+* Very similar but calculated in different orders
+
+* RPKM (Reads Per Kilobase per Million Mapped reads)
+  + single end sequencing &rarr; FPKM for paired end reads
+  + Scale read counts by number of reads mapped and multiplied with scaling factor (10^9)
 
 ### Why is TPM better?
 
