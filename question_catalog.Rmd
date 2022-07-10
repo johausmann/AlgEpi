@@ -270,6 +270,8 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * TypeI (false positives) and TypeII (false negatives) errors
 
+* calculation based on rank of p-value and specified sigma value
+
 * Multiple testing &rarr; probability of at least one false positive increases 
 
 * Adjust p-value to acknowledge multiple testing
@@ -296,6 +298,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 * Genes dispersions are shrunken towards the trend line which is then used in Wald test to estimate log fold change ratio
  + More meaningful for low read counts that would normally lead to high ratios (lfc)
 
+* Dispersion outliers not shrunken, if strong difference between fitted line and estimated dispersion for gene
 
 ### What is an MA-plot, and how to read it?
 
@@ -308,6 +311,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 * Shows significant difference/ratios in read counts depending on normalized read counts
 
 * Small counts produce large ratios but are not significant
+  + DESeq2 reduces the log2FC by LFC shrinkage procedure (done before Wald test)
 
 * Certain number of counts/threshold for significant thresholds
 
@@ -322,7 +326,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
   + "is-a" relationship
   + "part-of" relationship
 
-* divided into 3 ontologies
+* divided into 3 subontologies
    1. Cellular component
    2. Molecular function
    3. Biological process
@@ -341,13 +345,76 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### What is ChIP-seq?
 
+* Chromatin ImmunoPrecipitation combined with sequencing
+
+* Used to identify the location of protein binding sites (e.g. TF, Co-Factors or modified histones)
+
+* 2 Types of sequenced data
+  + ChIP data
+  + Input data 
+
+* ChiP data generation
+  + Cross-link protein to DNA
+  + Shear DNA strands
+  + Add antibodies to immuno precipitate target protein
+  + Unlink precipitated protein and sequence DNA
+  
+* Input data generation
+  + Same as ChiP data generation but without immunoprecipitation step 
+
 ### Why do we need to normalize ChIP-seq read counts?
+
+* To detect differentially enriched regions on ChIP data
+
+* Different sequencing depth
+
+* For background signal (Input data)
 
 ### What is indirect binding?
 
+* Protein of interest does not bind directly to DNA but to other protein(s), that binds to DNA
+
+* Can be quiet complex
+
+* Important to keep in mind in analysis of ChiP-seq experiment analysis
+
+* Direct or indirect binding cannot be directly inferred from the resulting sequencing data
+
 ### Explain basic quality steps for ChIP-seq data?
 
+* First step on raw sequencing data
+
+* Count reads in different windows of the genome
+
+* Assessing similarity (e.g. using Deeptools multiBamSummary)
+  + To get correlation between replicates and between ChIP and input data
+
+* Visualising the correlation (e.g. using Deeptools plotCorrelation)
+
+* Second step to check if IP has worked correctly (IP efficiency)
+
+* Count reads in bins over the genome for input and ChIP, then sort and normalize it
+
+![](media/lecture4_ip_efficiency_1.png){width=48%}
+![](media/lecture4_ip_efficiency_2.png){width=48%}
+
+* If the plotted input and ChIP curves are closer together, the quality is not very good
+
 ### How does peak calling with MACS2 work?
+
+* Scroll along the genome in bins
+
+* Call significant windows using Poisson distribution to distinguish between background noise (to calculate p-values)
+
+* Merge significant windows to call peaks
+
+* Read shifting conducted as follows:
+
+* Usually a peak from the positive and a peak from the negative strand would be recieved (left and right from the position, where the protein is sitting)
+
+* Fragment size is estimated (by distance of the two peaks or from paired end information)
+
+* MACS2 shifts the peaks towards the centre (half of the fragment length)
 
 ### What are the 6 core histone modifications?
 
