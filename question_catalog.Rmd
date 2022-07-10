@@ -52,7 +52,7 @@ output:
 * methylated = gene is silenced
   + TF can not bind &rarr; gene not expressed
   
-* Methylated DNA can interfere (block or enhance) the binding of
+* methylated DNA can interfere (block or enhance) the binding of
 transcription factors
 
 * methyl binding proteins
@@ -123,7 +123,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * Fragmentation of transcripts and reverse transcription to cDNA (hexamer priming)
 
-* Generation of ds-cDNA fragments and high throughput sequencing
+* Generation of ds-cDNA fragments &rarr; high throughput sequencing
 
 * Can be used to estimate gene expression or identify novel transcriptional changes
 
@@ -173,35 +173,169 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * RPKM (Reads Per Kilobase per Million Mapped reads)
   + single end sequencing &rarr; FPKM for paired end reads
-  + Scale read counts by number of reads mapped and multiplied with scaling factor (10^9)
+  + Normalize read counts by number of reads mapped scaled by arbitrary scaling factor (10^9)
+  + Scale normalized read counts by gene length (sum of exons)
+
+* TPM (Transcript per Million)
+  + T = total number of transcripts sampled in sequencing run (weighted by length)
+    + Sum over all genes estimated number of transcripts per gene ("one read per transcript")
+  + Number of reads is taken with respect to length of gene G and all other genes 
+    + M number in RPKM treats each read the same
+  + Normalize read count by gene length
+  + Normalize by sequencing depth
 
 ### Why is TPM better?
 
+* RPKM/FPKM and TPM normalize both for sequencing depth and gene length
+
+* For RPKM/FPKM column sum is different between samples &rarr; pie chart with different sizes
+  + Values are not comparable between samples e.g. same value between replicates are different proportions or relative expression
+
+* With TPM all columns sum up to 1 Million &rarr; better comparison
+
 ### How to quantify transcript expression?
+
+* Quantification can done by mapping reads to transcriptome &rarr; increased multimapping reads because transcripts share exons
+
+* Reads are not completely aligned &rarr; approximate position is enough to account for expression
+
+* TPM normalization for transcripts
+ + correction is relative to transcript length
+ + Now the factor T is the sum of the estimated number of counts per transcript (sum of the whole transcriptome)
 
 ### What is the effective length of a transcript?
 
+* Transcript length required to calculate TPM
+
+* Effective length depends on experiment (fragmentation step)
+  + Fragment size of paired end sequencing
+  + Some ranges of fragments are more/less likely &rarr; very small or very large fragments are unlikely to be present
+
+* Long fragments have less starting positions in transcript T compared to smaller fragments with many more
+
+* Effective length = L - f + 1
+
+* For smaller fragments the effective length becomes larger
+
+
 ### Which biases does Salmon take into account?
+
+* Salmon uses a EM model to account for biases from RNA-seq experiments
+
+* Fragment length
+* Positional bias (average mapping percentage &rarr; more reads at 3' end of transcript)
+* GC bias (PCR protocol biased not to amplify GC rich fragments)
+* Read start bias (Random primers prefer certain positions over others)
 
 ## 3. Analysis of differential expression data and interpretation
 
 ### Which normalization does DEseq2 use?
 
+* Counts of fragments aligned to gene i in sample j proportional to
+  + gene expression
+  + length of gene
+  + sequencing depth
+  + preparation factors like PCR
+
+* Median of ratios method (for each gene calculate count ratios)
+ + create pseudo sample (row-wise geometric mean)
+ + calculate ratio of each sample (count) to pseudo
+ + calculate column-wise median to obtain scaling factor
+   + we assume for most genes a ratio of 1 but difference in sequence depth creates slightly differing values
+   + median a good estimator of the differences in sequencing depth
+
 ### What is the advantage of the negative binomial compared to the Possion distribution, when looking at counts?
+
+* Assuming all positions in a transcript have same probability to produce a fragment &rarr; function of frequency of expressed content in sample
+
+* For one gene Binomial sampling distribution; for million of reads and small proportion for each gene this becomes a Poisson distribution
+
+* In a ideal world the proportion of mRNA stays exactly the same between technical replicates
+
+* Biological variation across samples produces "overdispersion" relative to Poisson dist.
+  + For Poisson mean and variance is always the same
+
+* Negative Binomial to capture this (Poisson with varying mean)
+  + Mean different from variance that needs to be modelled
+  + Can model more complex shapes
+  + Ratio of standard deviation and mean captured = CV value
 
 ### What is a p-value?
 
+* significance level at which we reject null hypothesis
+
+* probability of observing a difference/extreme value given the null hypothesis is true
+
 ### What does FDR mean
+
+* TypeI (false positives) and TypeII (false negatives) errors
+
+* Multiple testing &rarr; probability of at least one false positive increases 
+
+* Adjust p-value to acknowledge multiple testing
+
+* False Discovery rate used to control proportion of false positives
+
+* How many of the rejected null hypothesis are false positives
 
 ### Why do I need to do FDR?
 
+
 ### How does DEseq2 fit the dispersion for genes?
+
+* Dispersion is part of variance in negative bionomial
+
+* Dispersion plot &rarr; each black dot is dispersion estimate per gene (maximum likelihood)
+
+* Small read counts produce some sort of bias on dispersion
+
+* DESeq2 tries to fit a trend line to capture behaviour of dispersion
+
+  + as function of the mean read counts
+
+* Genes dispersions are shrunken towards the trend line which is then used in Wald test to estimate log fold change ratio
+ + More meaningful for low read counts that would normally lead to high ratios (lfc)
+
 
 ### What is an MA-plot, and how to read it?
 
+* M (log ratio) versus A (average) : MA plot
+
+* x-axis = log2FC, y-axis=mean of normalized counts
+
+* significant p-values highlighted with color
+
+* Shows significant difference/ratios in read counts depending on normalized read counts
+
+* Small counts produce large ratios but are not significant
+
+* Certain number of counts/threshold for significant thresholds
+
+
 ### What is the Gene Ontology?
 
+* controlled vocabulary to describe gene products (proteins, RNAs)
+
+* standardized, species-neutral way of representing biology
+
+* DAG of defined terms to describe gene product attributes
+  + "is-a" relationship
+  + "part-of" relationship
+
+* divided into 3 ontologies
+   1. Cellular component
+   2. Molecular function
+   3. Biological process
+
 ### How is functional enrichment estimated?
+
+* Given a set of DEGs &rarr; asses if certain terms are enriched in this selection
+
+* statistical test for picking set G with certain function/term f
+
+* Null hypothesis &rarr; no function/term is enriched; genes with term f appear with same frequency as in the whole gene set
+
+* Use the hypergeometric distribution to compute the p-value (or Fisher’s exact test)
 
 ## 4. Analysis of ChIP-seq data
 
@@ -296,6 +430,74 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 * Since peaks are just intervalls of genomic regions you can use BEDtools
 to intersect the region to find overlaps
 
+## 7. Transcription factor binding prediction and footprinting
+
+## How is a PWM estimated from aligned binding sites?
+
+### What is the disadvantage of a PWM?
+
+### What are SLIM models?
+
+### Which model performs better for TF modelling: PWM or SLIM?
+
+### Describe sequence based biases in open-chromatin data!
+
+### What is computational footprinting?
+
+### How does the HINT method or footprinting work?
+
+### How does HINT-ATAC deal with the ATAC-seq bias?
+
+### Which other aspects of HINT are important to do well on ATAC data?
+
+## 8. Integrative prediction of gene expression
+
+### What are shadow enhancers?
+
+### What does sparse linear regression mean?
+### What is the Lasso penalty?
+### What is the Elastic-Net penalty?
+### How to avoid overfitting?
+### Explain how open-chromatin peak data can be used to link TF binding to gene expression?
+### What are important assumptions in the linear model with TRAP-derived TF features?
+### What is the difference between nearest gene and window-based peak assignment?
+### What are confounders in the TF scores based on Dnase1 peaks?
+### Why is the Elastic-net more robust against bad features?
+
+## 9. Identification of gene regulatory elements and their target genes
+
+### How can one define regulatory elements?
+### Which histone marks were helpful in defining enhancers in RFECS?
+### What is the difference between per-sample and per-gene learning? Explain using a regression setup!
+
+### How can supervised segmentation be used to define gene-specific regulatory elements?
+### Why are STICHTIT REMs much shorter than for Genehancer?
+### What are disadvantages of the unified peaks approach?
+### What is Epiregio?
+
+## 10. Studying the 3D organization of the genome
+
+### What different chromatin conformation assays exist?
+### What is a contact matrix in this context?
+### What are TADs?
+### How are loops formed?
+### How to define super-enhancers
+### Which TF is involved in stable loop formation and by interaction with which protein complex
+### How to call TADs from Hi-C data?
+### How can one integrate Hi-c data to predict gene expression with epigenomics data?
+
+## 11. Integrative analysis of ChIP-seq data with chromatin state segmentation
+
+### What is chromatin state segmentation?
+### What is the advantage of chromatin state segmentation?
+### How does ChromHMM do the segmentation (underlying model/probability distribution)?
+### How can I compute a unified chromatin state model over several cell types?
+### How can I use chromatin states to predict cell types of origin for GWAS SNPs?
+### Why is EpiCSeg better than ChromHMM?
+### Which statistical approach is used in Sciddo?
+### What advantages do differential chromatin domains have compared to individual peak analyses?
+### Why can use differential chromatin domains to reason about similarity of cell types?
+### How does ChromDet learn chromatin determining regions?
 
 
 
