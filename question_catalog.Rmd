@@ -291,7 +291,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * Small read counts produce some sort of bias on dispersion
 
-* DESeq2 tries to fit a trend line to capture behaviour of dispersion
+* DESeq2 tries to fit a trend line to capture behavior of dispersion
 
   + as function of the mean read counts
 
@@ -351,7 +351,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * 2 Types of sequenced data
   + ChIP data
-  + Input data 
+  + Input data (background signal)
 
 * ChiP data generation
   + Cross-link protein to DNA
@@ -366,9 +366,11 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * To detect differentially enriched regions on ChIP data
 
-* Different sequencing depth
+* Comparable data &rarr; different sequencing depths
 
-* For background signal (Input data)
+* Extract information from IP experiment 
+
+  + For background signal (Input data)
 
 ### What is indirect binding?
 
@@ -380,6 +382,8 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * Direct or indirect binding cannot be directly inferred from the resulting sequencing data
 
+![Comparison direct and indirect binding](media/lecture4_binding.png)
+
 ### Explain basic quality steps for ChIP-seq data?
 
 * First step on raw sequencing data
@@ -389,7 +393,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 * Assessing similarity (e.g. using Deeptools multiBamSummary)
   + To get correlation between replicates and between ChIP and input data
 
-* Visualising the correlation (e.g. using Deeptools plotCorrelation)
+* Visualising the correlation as heatmap (e.g. using Deeptools plotCorrelation)
 
 * Second step to check if IP has worked correctly (IP efficiency)
 
@@ -398,23 +402,27 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 ![](media/lecture4_ip_efficiency_1.png){width=48%}
 ![](media/lecture4_ip_efficiency_2.png){width=48%}
 
+* Curve shows if enrichments are localized or are very strong
+
 * If the plotted input and ChIP curves are closer together, the quality is not very good
 
 ### How does peak calling with MACS2 work?
 
 * Scroll along the genome in bins
 
-* Call significant windows using Poisson distribution to distinguish between background noise (to calculate p-values)
+* Call significant windows using Poisson distribution to distinguish signal from background noise (to calculate p-values)
 
 * Merge significant windows to call peaks
 
 * Read shifting conducted as follows:
 
-* Usually a peak from the positive and a peak from the negative strand would be recieved (left and right from the position, where the protein is sitting)
+* Paired end sequencing &rarr; Sequencing a fragment from both ends generates two slightly shifted read coverages
+
+* Usually a peak from the positive and a peak from the negative strand would be received (left and right from the position, where the protein is sitting)
 
 * Fragment size is estimated (by distance of the two peaks or from paired end information)
 
-* MACS2 shifts the peaks towards the centre (half of the fragment length)
+* MACS2 shifts the peaks towards the center (half of the fragment length)
 
 ### What are the 6 core histone modifications?
 
@@ -433,6 +441,8 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 ### Why is WGBS called the gold standard in DNA methylation analysis?
 
 * Cytosine methylation across the entire genome at single base resolution
+
+* Measures genome-wide CpGs 
 
 * Unbiased
 
