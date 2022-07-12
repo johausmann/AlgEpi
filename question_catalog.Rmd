@@ -393,7 +393,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * Second step to check if IP has worked correctly (IP efficiency)
 
-* Count reads in bins over the genome for input and ChIP, then sort and normalize it
+* Count reads in bins over the genome for input and ChIP, then sort and normalize it w.r.t. highest number of reads in bin
 
 ![](media/lecture4_ip_efficiency_1.png){width=48%}
 ![](media/lecture4_ip_efficiency_2.png){width=48%}
@@ -420,7 +420,46 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### How can ChIP-seq data be used to locate tissue-specifc enhancers?
 
+* co-activator protein p300 binds to many other proteins (transcription factors) and also interacts with enhancer regions/proteins that sit at enhancer regions  
+
+* Different p300 peak regions define tissue specific enhancers
+
+* Before ChIP-seq enhancers were mainly found via conservation analysis of multiple sequence alignments of non-coding regions of different species
+
 ### Mention approaches for differential peak calling!
+
+* Peaks have to be found first
+  + Independent peak analysis
+  + Sliding window approach
+  + Binning (Same size windows, non overlapping)
+  
+* Comparison of peaks between different conditions
+  + Qualitative comparison (peak or no peak)
+  + Quantitative comparison
+  + Normalize
+  + Hypothesis testing
+  + Probabilistic modeling
+  + Consider local dependencies
+  
+* Bdgdiff in MACS2
+  + Binning based
+  + If only one replicate is given
+  + First calls peaks using Input and ChIP bam files
+  + Secondly outputs bedfiles for log-likelihood ratio test result (cond 1 > cond 2 and vice versa, similar enrichment in both conditions)
+  
+* diffBind
+  + peak based
+  + independent from peak caller
+  + considers replicates
+  + uses only ChIP reads
+  + recounts the reads in peaks
+  + uses DESeq2 method for normalization and differential abundance testing
+  
+* Both methods treat neighbouring peaks individually
+
+* HistoneHMM
+  + Read counts in bins
+  + Introduce further states to represent differential regions
 
 ## 5. Analysis of DNA methylation data
 
