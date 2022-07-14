@@ -497,6 +497,9 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 ### Why is bisulfite-seq data difficult to analyze?
 
 * Up to four DNA strands have to be analysed
+  
+  + Top and Bottom strand are methylated 
+  + Leads to 4 different strands after PCR amplification
 
 * Mapping
   * increased search space (more positions, where sequence can map)
@@ -508,7 +511,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * bisulfite treatment: unmethylated cytosines are converted to thymines during the PCR amplification
 
-* This conversion must be take into account during alignment by allowing an asymmetric mapping
+* This conversion must be taken into account during alignment by allowing an asymmetric mapping
   * thymine in a read mapped to a cytosine in the reference genome sequence &rarr; match 
   * thymine in the genome sequence mapped to a cytosine in a read &rarr; mismatch.
 
@@ -532,7 +535,26 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### How does RnBeads do differential methylation detection?
 
+* Target: quantify differences in DNA methylation between 2 sample groups based on CpGs and genomic regions of interest (e.g. found by MethylSeekR, annotation or promotor regions,...)
+
+* LIMMA Model (easy integration of co-variates e.g. batch effects )
+  + use methylation value (ratio of methylated against unmethylated)
+  + fit model with matrix of methylation values of different samples
+  + null hypothesis: no difference in methylation between different groups
+  + p-values for significance of each CpG
+
 ### Why is epigenetics on cell-free DNA interesting?
+
+* Cell-free DNA (cfDNA) is DNA, that is relased into the blood stream by cells via e.g. Apoptosis, Necrosis or Secretion
+
+* This DNA can be epigenetically studied e.g. for methylation patterns
+
+* These methylation patterns can then be mapped to different tissues 
+  + Mapping can be learned supervised or unsupervised
+  
+* Direct marker analysis possible, if markers for specific diseases are given
+
+* Monitoring of diseases would be possible (e.g. heart disease would give higher proportions of cells with heart methylation patterns in blood)
 
 ## 6. Analysis of open-chromatin data
 
