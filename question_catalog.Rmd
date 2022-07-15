@@ -463,7 +463,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
   + recounts the reads in peaks
   + uses DESeq2 method for normalization and differential abundance testing
   
-* Both methods treat neighbouring peaks individually
+* Both methods treat neighboring peaks individually
 
 * HistoneHMM
   + Read counts in bins
