@@ -616,7 +616,42 @@ either tight or loosely wrapped around histones
 
 ### What is the underlying idea of the gNOMeHMM approach for?
 
+* only GC positions are measured (GCH)
+
+* GCG &rarr; it is not clear where methylation comes from
+
+* Openess value = C/(C+T) 
+  + same as methylation value for WGBS
+  + methylation (1.0) without conversion &rarr; open region
+  
+* Group GC dinucleotides with high methylation &rarr; open
+  + adjacent are merged into peak &rarr; region of open chromatin
+
+* Binomial HMM with 2 states (open and closed)
+  + binomial distribution to capture mean of GC methylation
+  
+* Fisher's exact test of all open called regions
+  + enrichment of "open reads" compared to a background distribution (4kb window)
+  
+* FDR correction
+  + Peaks called along whole genome &rarr; regions with different coverage
+  + Cluster regions/peaks genome wide
+  + high read coverage = more sensitive 
+
 ### How does JAMM use mixture models for detecting peaks?
+
+* Based on BED files find enriched windows
+  + bins with higher mean / good signal-to-noise ratio
+  + different size 500bp - 1kp &rarr; peak ocated in this window
+  
+* Gaussian mixture to cluster windows per chromosome
+  + Understand distribution of open chromatin values (read counts) along windows
+  + Learn mixture model to get clusters &rarr; probability that window belong to cluster
+  + multivariate &rarr; __replicates__
+
+* Find peaks in enriched windows
+  + assign genomic nucleotides/region to clusters to call peaks
+  + find peaks in large window of read counts &rarr; dissect large windows
 
 ### Which aspect of ATAC-seq data is specifically modelled by the HMM in the HMMRATAC method?
 
