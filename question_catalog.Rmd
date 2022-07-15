@@ -659,7 +659,7 @@ either tight or loosely wrapped around histones
 
 * Dissect signal in fragments of different length
 
-* Use fragement/signal information for peak calling
+* Use fragment/signal information for peak calling
 
 * Modeled by HMM that learns a mixture of gaussians
  + Explain different states of fragments (Nucleosome free, 1 Nucleosome etc.)
