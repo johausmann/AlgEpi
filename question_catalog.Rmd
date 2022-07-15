@@ -484,6 +484,8 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * Treatment of DNA with bisulphite &rarr; reaction converts unmethylated cytosines to uracils, methylated cytosine (5-methylcytosine) does not react with bisulphite.
 
+* High efficiency 
+
 * During PCR uracil becomes thymine
 
 ### Why is WGBS called the gold standard in DNA methylation analysis?
@@ -513,7 +515,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * This conversion must be taken into account during alignment by allowing an asymmetric mapping
   * thymine in a read mapped to a cytosine in the reference genome sequence &rarr; match 
-  * thymine in the genome sequence mapped to a cytosine in a read &rarr; mismatch.
+  * cytosine in a read mapped to a thymine in the genome sequence &rarr; mismatch.
 
 ### How do reduced representation mappers perform alignment?
 
@@ -521,9 +523,13 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * After the conversion conduct mapping with "normal" mapper (e.g. Bowtie)
 
+* False positive alignments
+
 ### What are PMDs and how does MethylSeekR find them?
 
 * Partially methylated domains (PMDs) are characterized by highly disordered methylation, resulting in an average methylation clearly below the genomic background level
+
+* High variation in methylation level in large domains in the genome
 
 * generally large &rarr; do not need to be modeled at the single CpG level (summarised using sliding window)
 
@@ -535,10 +541,12 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### How does RnBeads do differential methylation detection?
 
-* Target: quantify differences in DNA methylation between 2 sample groups based on CpGs and genomic regions of interest (e.g. found by MethylSeekR, annotation or promotor regions,...)
+* Target: quantify differences in DNA methylation between 2 sample groups based
+
+* Based on CpGs and genomic regions of interest (e.g. found by MethylSeekR, annotation or promotor regions,...)
 
 * LIMMA Model (easy integration of co-variates e.g. batch effects )
-  + use methylation value (ratio of methylated against unmethylated)
+  + use methylation value (ratio of methylated against unmethylated CpGs)
   + fit model with matrix of methylation values of different samples
   + null hypothesis: no difference in methylation between different groups
   + p-values for significance of each CpG
@@ -560,9 +568,51 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### What does open-chromatin mean?
 
+* DNA normally wrapped around nucleosome
+
+* Depending on context (active expression, histone modifications etc.) it's
+either tight or loosely wrapped around histones
+
+* DNA accessible for binding proteins
+
+* Expressed genes, regulatory regions e.g. active promoters, enhancers
+
+* Can be bound by TFs, RNApol, co-activators, scaffolding proteins
+
 ### Which assays are commonly used to profile open-chromatin regions?
 
+* Cut/Tag/Methylate accessible DNA regions &rarr; enrich fragments &rarr; sequence
+
+* DNaseI-Seq
+
+  + DNA digestion with DNaseI enzyme &rarr; cuts accessible dsDNA
+  + Purification and selection of short double hit fragments
+  + High throughput sequencing &rarr; Relative enrichment of accessible regions
+
+* ATAC-Seq
+  + Direct tagging of accessible regions
+  + Tn5 transposase with sequencing adaptors
+  + very sensitive 
+  + Purification and high throughput sequencing &rarr; Relative enrichment of accessible regions
+
+* NOMe-Seq
+  + Usage of GpC methyltransferase
+    + Only methylation of GpC
+    + Not a native enzyme in human &rarr; GpC methylation not naturally happening
+  + In vitro methylation of GpCs &rarr; nucleosome depleted regions (accessible)
+  + Bisulfite sequencing
+  + genome wide screen of nucleosome occupancy
+
+  
 ### How is NOMe-seq different to other assays?
+
+* NOMe-seq is not an __enrichment__ procedure
+
+* Genome-wide screen of accessible regions
+
+* Quantitative assesment of __GpCs__ and __CpGs__ &rarr; two types of information
+
+* interpretation in context of accessibility and natural methylation
 
 ### What is the underlying idea of the gNOMeHMM approach for?
 
@@ -574,7 +624,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### How can you compute overlap between peak datasets?
 
-* Since peaks are just intervalls of genomic regions you can use BEDtools
+* Since peaks are just intervals of genomic regions you can use BEDtools
 to intersect the region to find overlaps
 
 ## 7. Transcription factor binding prediction and footprinting
