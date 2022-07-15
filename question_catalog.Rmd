@@ -642,7 +642,7 @@ either tight or loosely wrapped around histones
 
 * Based on BED files find enriched windows
   + bins with higher mean / good signal-to-noise ratio
-  + different size 500bp - 1kp &rarr; peak ocated in this window
+  + different size 500bp - 1kp &rarr; peak located in this window
   
 * Gaussian mixture to cluster windows per chromosome
   + Understand distribution of open chromatin values (read counts) along windows
@@ -655,7 +655,25 @@ either tight or loosely wrapped around histones
 
 ### Which aspect of ATAC-seq data is specifically modelled by the HMM in the HMMRATAC method?
 
+* Random cuts &rarr; fragments of different lengths
+
+* Dissect signal in fragments of different length
+
+* Use fragement/signal information for peak calling
+
+* Modeled by HMM that learns a mixture of gaussians
+ + Explain different states of fragments (Nucleosome free, 1 Nucleosome etc.)
+ 
+
 ### Which of the two assays are more similar ATAC-, NOMe- and, DNase1-seq and why?
+
+* ToDo
+
+* Signals in bins alogn genome &rarr; correlation plot
+  + ATAC-seq and DNaseI-seq have highest correlation on signal level
+  + Similar enrichment of open regions
+  + Similarity to NOMe is smaller &rarr; quantitative nature of method (percentages)
+
 
 ### How can you compute overlap between peak datasets?
 
@@ -687,13 +705,21 @@ to intersect the region to find overlaps
 ### What are shadow enhancers?
 
 ### What does sparse linear regression mean?
+
 ### What is the Lasso penalty?
+
 ### What is the Elastic-Net penalty?
+
 ### How to avoid overfitting?
+
 ### Explain how open-chromatin peak data can be used to link TF binding to gene expression?
+
 ### What are important assumptions in the linear model with TRAP-derived TF features?
+
 ### What is the difference between nearest gene and window-based peak assignment?
+
 ### What are confounders in the TF scores based on Dnase1 peaks?
+
 ### Why is the Elastic-net more robust against bad features?
 
 ## 9. Identification of gene regulatory elements and their target genes
