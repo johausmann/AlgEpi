@@ -371,6 +371,8 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 * Extract information from IP experiment 
 
   + For background signal (Input data)
+  
+* TODO: add how to normalize ChIP-seq read counts
 
 ### What is indirect binding?
 
@@ -388,7 +390,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * First step on raw sequencing data
 
-* Count reads in different windows of the genome
+* Count reads in different bins of the genome
 
 * Assessing similarity (e.g. using Deeptools multiBamSummary)
   + To get correlation between replicates and between ChIP and input data
@@ -408,23 +410,24 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### How does peak calling with MACS2 work?
 
-* Scroll along the genome in bins
+* Scroll along the genome in windows
 
-* Call significant windows using Poisson distribution to distinguish signal from background noise (to calculate p-values)
+* Call significant windows using Poisson (with dynamic expected value $\lambda_{local}=max(\lambda_{BG}, \lambda_{1K}, \lambda_{5K}, \lambda_{10K})$, lecture on ChIP seq from Ibn-Salem) distribution to distinguish signal from background noise (to calculate p-values, and subsequent FDR)
 
 * Merge significant windows to call peaks
 
 * Read shifting conducted as follows:
 
-* Paired end sequencing &rarr; Sequencing a fragment from both ends generates two slightly shifted read coverages
-
-* Usually a peak from the positive and a peak from the negative strand would be received (left and right from the position, where the protein is sitting)
-
-* Fragment size is estimated (by distance of the two peaks or from paired end information)
-
-* MACS2 shifts the peaks towards the center (half of the fragment length)
+  * Paired end sequencing &rarr; Sequencing a fragment from both ends generates two slightly shifted read coverages
+  * Usually a peak from the positive and a peak from the negative strand would be received (left and right from the position, where the protein is sitting)
+  * Fragment size is estimated (by distance of the two peaks or from paired end information)
+  * MACS2 shifts the peaks towards the center (half of the fragment length)
 
 ### What are the 6 core histone modifications?
+
+* TODO: check lecture 4 slide 40 and 44
+
+* TODO: create list of Histone Modifications
 
 ### How can ChIP-seq data be used to locate tissue-specifc enhancers?
 
@@ -437,25 +440,30 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 ### Mention approaches for differential peak calling!
 
 * Peaks have to be found first
+
   + Independent peak analysis
   + Sliding window approach
   + Binning (Same size windows, non overlapping)
   
 * Comparison of peaks between different conditions
+
   + Qualitative comparison (peak or no peak)
   + Quantitative comparison
+  + TODO: listen again to the following parts
   + Normalize
   + Hypothesis testing
   + Probabilistic modeling
   + Consider local dependencies
   
 * Bdgdiff in MACS2
+
   + Binning based
   + If only one replicate is given
   + First calls peaks using Input and ChIP bam files
   + Secondly outputs bedfiles for log-likelihood ratio test result (cond 1 > cond 2 and vice versa, similar enrichment in both conditions)
   
 * diffBind
+
   + peak based
   + independent from peak caller
   + considers replicates
@@ -466,6 +474,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 * Both methods treat neighboring peaks individually
 
 * HistoneHMM
+
   + Read counts in bins
   + Introduce further states to represent differential regions
 
@@ -488,6 +497,9 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 ### Why is bisulfite-seq data difficult to analyze?
 
 * Up to four DNA strands have to be analysed
+  
+  + Top and Bottom strand are methylated 
+  + Leads to 4 different strands after PCR amplification
 
 * Mapping
   * increased search space (more positions, where sequence can map)
@@ -499,7 +511,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * bisulfite treatment: unmethylated cytosines are converted to thymines during the PCR amplification
 
-* This conversion must be take into account during alignment by allowing an asymmetric mapping
+* This conversion must be taken into account during alignment by allowing an asymmetric mapping
   * thymine in a read mapped to a cytosine in the reference genome sequence &rarr; match 
   * thymine in the genome sequence mapped to a cytosine in a read &rarr; mismatch.
 
@@ -523,7 +535,26 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### How does RnBeads do differential methylation detection?
 
+* Target: quantify differences in DNA methylation between 2 sample groups based on CpGs and genomic regions of interest (e.g. found by MethylSeekR, annotation or promotor regions,...)
+
+* LIMMA Model (easy integration of co-variates e.g. batch effects )
+  + use methylation value (ratio of methylated against unmethylated)
+  + fit model with matrix of methylation values of different samples
+  + null hypothesis: no difference in methylation between different groups
+  + p-values for significance of each CpG
+
 ### Why is epigenetics on cell-free DNA interesting?
+
+* Cell-free DNA (cfDNA) is DNA, that is relased into the blood stream by cells via e.g. Apoptosis, Necrosis or Secretion
+
+* This DNA can be epigenetically studied e.g. for methylation patterns
+
+* These methylation patterns can then be mapped to different tissues 
+  + Mapping can be learned supervised or unsupervised
+  
+* Direct marker analysis possible, if markers for specific diseases are given
+
+* Monitoring of diseases would be possible (e.g. heart disease would give higher proportions of cells with heart methylation patterns in blood)
 
 ## 6. Analysis of open-chromatin data
 
