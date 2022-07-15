@@ -535,13 +535,13 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * MethylSeekR uses sliding window of 101 CpGs
 
-* Calculate &alpha; values (model reads covering each CpG as being generated from beta binomial distribution)
+* Calculate &alpha; values (model methylation value for each CpG as being generated from beta binomial distribution)
   * &alpha; < 1: favor polarized methylation close to 0 or 1
   * &alpha; > 1: biased to intermediate methylation (~0.5)
 
 ### How does RnBeads do differential methylation detection?
 
-* Target: quantify differences in DNA methylation between 2 sample groups based
+* Target: quantify differences in DNA methylation between 2 sample groups
 
 * Based on CpGs and genomic regions of interest (e.g. found by MethylSeekR, annotation or promotor regions,...)
 
@@ -588,14 +588,14 @@ either tight or loosely wrapped around histones
   + DNA digestion with DNaseI enzyme &rarr; cuts accessible dsDNA
   + Purification and selection of short double hit fragments
   + High throughput sequencing &rarr; Relative enrichment of accessible regions
-  + Different lengths of fragments (e.g. 1, 2 ot 3 nucleosomes)
 
 * ATAC-Seq
   + Similar approach to tagmentation based bisulfite-sequencing
   + Direct tagging of accessible regions
   + Tn5 transposase cuts accessible DNA and inserts sequencing adaptors
-  + very sensitive (less cells needed than for DNaseI-Seq experiment, nowadays even single-cell)
+  + very sensitive (less cells needed then for DNaseI-Seq experiment, nowadays even single-cell)
   + Purification and high throughput sequencing &rarr; Relative enrichment of accessible regions
+  + Different lengths of fragments (e.g. 1, 2 or 3 nucleosomes)
 
 * NOMe-Seq
   + Usage of GpC methyltransferase
@@ -603,8 +603,8 @@ either tight or loosely wrapped around histones
     + Not a native enzyme in human &rarr; GpC methylation not naturally happening
   + In vitro methylation of GpCs &rarr; nucleosome depleted regions (accessible) (only regions where nothing else is binding)
   + Bisulfite sequencing
-  + genome wide screen of nucleosome occupancy
-  + Expentive (WGBS) and complicated data analysis
+  + Genome wide screen of nucleosome occupancy
+  + Expensive (WGBS) and complicated data analysis
 
   
 ### How is NOMe-seq different to other assays?
@@ -613,9 +613,9 @@ either tight or loosely wrapped around histones
 
 * Genome-wide screen of accessible regions
 
-* Quantitative assesment of __GpCs__ and __CpGs__ &rarr; two types of information
+* Quantitative assessment of __GpCs__ and __CpGs__ &rarr; two types of information
 
-* interpretation in context of accessibility and natural methylation
+* Interpretation in context of accessibility and natural methylation
 
 ### What is the underlying idea of the gNOMeHMM approach for?
 
@@ -649,7 +649,7 @@ either tight or loosely wrapped around histones
   
 * Gaussian mixture to cluster windows per chromosome
   + Understand distribution of open chromatin values (read counts) along windows
-  + Learn mixture model to get clusters &rarr; probability that window belong to cluster
+  + Learn mixture model to get clusters
   + multivariate &rarr; __replicates__
 
 * Find peaks in enriched windows
@@ -668,10 +668,10 @@ either tight or loosely wrapped around histones
 * Modeled by HMM that learns a mixture of gaussians
  + Explain different states of fragments (Nucleosome free, 1 Nucleosome etc.)
  
-* Fragments of different length, when sequencing &rarr; e.g. one ot two nucleosomes
+* Fragments of different length, when sequencing &rarr; e.g. one or two nucleosomes
   + Short fragments in center (open chromatin region)
 
-* Model as HMM the three states Center (open), Background (no open chromatin) and Nucleosome (adjavent to center)
+* Model as HMM the three states Center (open), Background (no open chromatin) and Nucleosome (adjacent to center)
   + Decompose dataset into different fragment lengths
   + Learn Gaussion Mixture
   + Optimize parameters using Baum-Welch (expectation maximization)
@@ -679,7 +679,7 @@ either tight or loosely wrapped around histones
 
 ### Which of the two assays are more similar ATAC-, NOMe- and, DNase1-seq and why?
 
-* Signals in bins alogn genome &rarr; correlation plot
+* Signals in bins along genome &rarr; correlation plot
   + ATAC-seq and DNaseI-seq have highest correlation on signal level
   + Similar enrichment of open regions
   + Similarity to NOMe is smaller &rarr; quantitative nature of method (percentages)
@@ -696,17 +696,17 @@ to intersect the region to find overlaps
 
 ## 7. Transcription factor binding prediction and footprinting
 
-* If domain of TF is known, that does not mean the motiv is also known
+* If domain of TF is known, that does not mean the motif is also known
 
 ## How is a PWM estimated from aligned binding sites?
 
 1. Create count matrix (columns &rarr; position; row &rarr; letters of alphabet e.g. nucleotides)
 
-2. Normalize the counts in the matrix
+2. Normalize the counts in the matrix &rarr; Position Probability Matrix
 
-* Probability can be calculated easily (multiply the normalized values for each symbol at each position)
+* Probability of a given sequence can be calculated easily (multiply the normalized values for each symbol at each position) 
 
-* Problem: if character not given in alignment probability becomes always 0
+* Problem: if character not given in alignment/at a position in the PFM probability becomes always 0
 
 * Solution: Add pseudo count
 
