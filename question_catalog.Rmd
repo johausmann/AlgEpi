@@ -588,20 +588,23 @@ either tight or loosely wrapped around histones
   + DNA digestion with DNaseI enzyme &rarr; cuts accessible dsDNA
   + Purification and selection of short double hit fragments
   + High throughput sequencing &rarr; Relative enrichment of accessible regions
+  + Different lengths of fragments (e.g. 1, 2 ot 3 nucleosomes)
 
 * ATAC-Seq
+  + Similar approach to tagmentation based bisulfite-sequencing
   + Direct tagging of accessible regions
-  + Tn5 transposase with sequencing adaptors
-  + very sensitive 
+  + Tn5 transposase cuts accessible DNA and inserts sequencing adaptors
+  + very sensitive (less cells needed than for DNaseI-Seq experiment, nowadays even single-cell)
   + Purification and high throughput sequencing &rarr; Relative enrichment of accessible regions
 
 * NOMe-Seq
   + Usage of GpC methyltransferase
     + Only methylation of GpC
     + Not a native enzyme in human &rarr; GpC methylation not naturally happening
-  + In vitro methylation of GpCs &rarr; nucleosome depleted regions (accessible)
+  + In vitro methylation of GpCs &rarr; nucleosome depleted regions (accessible) (only regions where nothing else is binding)
   + Bisulfite sequencing
   + genome wide screen of nucleosome occupancy
+  + Expentive (WGBS) and complicated data analysis
 
   
 ### How is NOMe-seq different to other assays?
@@ -618,7 +621,7 @@ either tight or loosely wrapped around histones
 
 * only GC positions are measured (GCH)
 
-* GCG &rarr; it is not clear where methylation comes from
+* GCG &rarr; it is not clear where methylation comes from (was it already methylated before enzyme treatment?)
 
 * Openess value = C/(C+T) 
   + same as methylation value for WGBS
@@ -655,6 +658,7 @@ either tight or loosely wrapped around histones
 
 ### Which aspect of ATAC-seq data is specifically modelled by the HMM in the HMMRATAC method?
 
+
 * Random cuts &rarr; fragments of different lengths
 
 * Dissect signal in fragments of different length
@@ -664,15 +668,25 @@ either tight or loosely wrapped around histones
 * Modeled by HMM that learns a mixture of gaussians
  + Explain different states of fragments (Nucleosome free, 1 Nucleosome etc.)
  
+* Fragments of different length, when sequencing &rarr; e.g. one ot two nucleosomes
+  + Short fragments in center (open chromatin region)
+
+* Model as HMM the three states Center (open), Background (no open chromatin) and Nucleosome (adjavent to center)
+  + Decompose dataset into different fragment lengths
+  + Learn Gaussion Mixture
+  + Optimize parameters using Baum-Welch (expectation maximization)
+ 
 
 ### Which of the two assays are more similar ATAC-, NOMe- and, DNase1-seq and why?
-
-* ToDo
 
 * Signals in bins alogn genome &rarr; correlation plot
   + ATAC-seq and DNaseI-seq have highest correlation on signal level
   + Similar enrichment of open regions
   + Similarity to NOMe is smaller &rarr; quantitative nature of method (percentages)
+
+* ATAC and DNase1-seq are more similar because we are cutting the open chromatin DNA somehow and sequence the fragments
+
+* The accessible regions are then determined by enrichment in signal
 
 
 ### How can you compute overlap between peak datasets?
@@ -682,7 +696,25 @@ to intersect the region to find overlaps
 
 ## 7. Transcription factor binding prediction and footprinting
 
+* If domain of TF is known, that does not mean the motiv is also known
+
 ## How is a PWM estimated from aligned binding sites?
+
+1. Create count matrix (columns &rarr; position; row &rarr; letters of alphabet e.g. nucleotides)
+
+2. Normalize the counts in the matrix
+
+* Probability can be calculated easily (multiply the normalized values for each symbol at each position)
+
+* Problem: if character not given in alignment probability becomes always 0
+
+* Solution: Add pseudo count
+
+* PWM:
+  + compute log-odds score for each entry in the above described PPM
+  + Higher probability for character than background &rarr; positive value
+  + Lower probability for character than background &rarr; negative value
+  + Score for sequence can be calculated by summing up the values for character at specific position
 
 ### What is the disadvantage of a PWM?
 
