@@ -696,7 +696,7 @@ to intersect the region to find overlaps
 
 ## 7. Transcription factor binding prediction and footprinting
 
-* If domain of TF is known, that does not mean the motif is also known
+> If domain of TF is known, that does not mean the motif is also known
 
 ## How is a PWM estimated from aligned binding sites?
 
@@ -720,11 +720,13 @@ to intersect the region to find overlaps
 
 * Sequences must be same length and have no gaps
 
-* Positions in the binding site model are independent is a strong simplification (will have a impact on the 3D shape)
+* Considers probability of binding at individual positions of the motifs
+
+* Positions in the binding site model are independent &rarr; a strong simplification (will have a impact on the 3D shape)
 
 ### What are SLIM models?
 
-![Asymmetric mapping problem](media/lecture5_asymmetric.png){width=70%}
+![SLIM model](media/lecture7_slim.png){width=70%}
 
 * WAM: dependency on previous position (e.g. Dinucleotide PWMs)
 
@@ -733,7 +735,7 @@ to intersect the region to find overlaps
 * SLIM (Sparse local inhomogeneous mixture model): Mixture of conditional contributions for different previous and current position
   + Could be model with many parameters
   + Therefore some of the weights are pushed to 0
-  + Inhomogeneous, because the probabilities for each position can be different
+  + Inhomogeneous, because the dependencies and probabilities for each position can be different
   + All the other models are an instance of the SLIM model
 
 ### Which model performs better for TF modelling: PWM or SLIM?
@@ -746,28 +748,33 @@ to intersect the region to find overlaps
 
 * To visualize the cleavage enzyme biases, sequence logos of multiple sequence alignments of the read start positions are created
  
-* ATAC-seq smaller preferences than in TF binding motifs (max arround 0.3 bit) but preference is given
+* ATAC-seq smaller preferences than in TF binding motifs (max around 0.3 bit) but preference is given
   + palindromic
   + because two transposase molecules are involved in the cutting
-  + large sequence bias (because of two molecules)
+  + larger window ~ 9bp of sequence bias (because of two molecules)
+  + Shape preference &rarr; high minor groove width where transposase integrates
 
 * DNase1 also small preference (not symmetric)
+  + more local
+  + Shape preference &rarr; clear preference to cut in minor grove
   + DNA-methylation increased directly after cut side (Methylation changes minor groove width which is beneficial for DNase)
 
 * NOMe
-  + GC has max value, because this is measured
+  + GC has max. value, because this is measured
   + No bias adjacent to GC position
   + Position on left and right are not biased, because GCGs are excluded
+  + Methylation pattern around GC methylation
   
-* For all assays preferences in the minor groove with at and arround the cutting/methylation position were found
+* For all assays preferences in the minor groove around the cutting/methylation position were found
 
 ### What is computational footprinting?
 
-* Dips in peaks of open-chromatin data &rarr; TF bound to DNA (hinders DNase to cut DNA)
-
+* Dips in peaks/signal of open-chromatin data &rarr; TF bound to DNA (hinders DNase, ATAC to cut DNA)
+ + expectation &rarr; dips are not observable in peak
+ 
 * Predicted footprint regions are a good starting point for binding motif search
 
-### How does the HINT method or footprinting work?
+### How does the HINT method for footprinting work?
 
 * HMM based
 
@@ -775,19 +782,25 @@ to intersect the region to find overlaps
 
 * Savitzky Golay filter for smoothing and slope
 
-* Train HMM supervised
+* Train HMM supervised with 1 TF-ChIP-seq data
 
 ### How does HINT-ATAC deal with the ATAC-seq bias?
-
-* Seperate signal to forward and reverse
-
-* HINT has several states for forward and reverse to treat them separately (Two transposase molecules)
-
-### Which other aspects of HINT are important to do well on ATAC data?
 
 * Correct cleavage enzyme bias
   + calculate bias for k-mer 
   + correct the read counts using this bias value
+  
+* HINT uses a Position Dependency Model (only relevant positions) to account for sequence bias
+
+* Strand cleavage bias
+  + Fragments of different length &rarr; nucleosome positions  (distinct strand bias)
+  + Dips also present for transition from linker to nucleosome
+  + HINT separates fragments according to their length (NFR, 1N, 2N+) &rarr; seperate signal to forward and reverse
+  + HINT has several states for forward and reverse to treat them separately (2 transposase molecules)
+
+* important to  model __strand__ and __decompose signal__ based on fragment length
+
+### Which other aspects of HINT are important to do well on ATAC data?
 
 ## 8. Integrative prediction of gene expression
 
