@@ -588,7 +588,7 @@ either tight or loosely wrapped around histones
   + DNA digestion with DNaseI enzyme &rarr; cuts accessible dsDNA
   + Purification and selection of short double hit fragments
   + High throughput sequencing &rarr; Relative enrichment of accessible regions
-  + Different lengths of fragments (e.g. 1, 2 ot 3 nucleosomes)
+  + Different lengths of fragments (e.g. 1, 2 or 3 nucleosomes)
 
 * ATAC-Seq
   + Similar approach to tagmentation based bisulfite-sequencing
@@ -604,7 +604,7 @@ either tight or loosely wrapped around histones
   + In vitro methylation of GpCs &rarr; nucleosome depleted regions (accessible) (only regions where nothing else is binding)
   + Bisulfite sequencing
   + genome wide screen of nucleosome occupancy
-  + Expentive (WGBS) and complicated data analysis
+  + Expensive (WGBS) and complicated data analysis
 
   
 ### How is NOMe-seq different to other assays?
@@ -718,19 +718,76 @@ to intersect the region to find overlaps
 
 ### What is the disadvantage of a PWM?
 
+* Sequences must be same length and have no gaps
+
+* Positions in the binding site model are independent is a strong simplification (will have a impact on the 3D shape)
+
 ### What are SLIM models?
+
+![Asymmetric mapping problem](media/lecture5_asymmetric.png){width=70%}
+
+* WAM: dependency on previous position (e.g. Dinucleotide PWMs)
+
+* Bayesian tree: conditional on __one__ previous position
+
+* SLIM (Sparse local inhomogeneous mixture model): Mixture of conditional contributions for different previous and current position
+  + Could be model with many parameters
+  + Therefore some of the weights are pushed to 0
+  + Inhomogeneous, because the probabilities for each position can be different
+  + All the other models are an instance of the SLIM model
 
 ### Which model performs better for TF modelling: PWM or SLIM?
 
+* Overall SLIM performs better than PWM
+
+* For some genes PWM is performing better (e.g. Znf143 of Rxra)
+
 ### Describe sequence based biases in open-chromatin data!
+
+* To visualize the cleavage enzyme biases, sequence logos of multiple sequence alignments of the read start positions are created
+ 
+* ATAC-seq smaller preferences than in TF binding motifs (max arround 0.3 bit) but preference is given
+  + palindromic
+  + because two transposase molecules are involved in the cutting
+  + large sequence bias (because of two molecules)
+
+* DNase1 also small preference (not symmetric)
+  + DNA-methylation increased directly after cut side (Methylation changes minor groove width which is beneficial for DNase)
+
+* NOMe
+  + GC has max value, because this is measured
+  + No bias adjacent to GC position
+  + Position on left and right are not biased, because GCGs are excluded
+  
+* For all assays preferences in the minor groove with at and arround the cutting/methylation position were found
 
 ### What is computational footprinting?
 
+* Dips in peaks of open-chromatin data &rarr; TF bound to DNA (hinders DNase to cut DNA)
+
+* Predicted footprint regions are a good starting point for binding motif search
+
 ### How does the HINT method or footprinting work?
+
+* HMM based
+
+* Normalize cleavage signals
+
+* Savitzky Golay filter for smoothing and slope
+
+* Train HMM supervised
 
 ### How does HINT-ATAC deal with the ATAC-seq bias?
 
+* Seperate signal to forward and reverse
+
+* HINT has several states for forward and reverse to treat them separately (Two transposase molecules)
+
 ### Which other aspects of HINT are important to do well on ATAC data?
+
+* Correct cleavage enzyme bias
+  + calculate bias for k-mer 
+  + correct the read counts using this bias value
 
 ## 8. Integrative prediction of gene expression
 
