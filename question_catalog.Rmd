@@ -726,7 +726,7 @@ to intersect the region to find overlaps
 
 ### What are SLIM models?
 
-![SLIM model](media/lecture7_slim.png){width=70%}
+![SLIM (Sparse local inhomogeneous mixture model)](media/lecture7_slim.png){width=70%}
 
 * WAM: dependency on previous position (e.g. Dinucleotide PWMs)
 
@@ -806,13 +806,53 @@ to intersect the region to find overlaps
 
 ### What are shadow enhancers?
 
+* Enhancers with partially redundant activity (If one is removed, gene regulation not really changed, because another enhancer is shadowing and preserves basic functionality)
+
+* Often similar ChIP-seq binding
+
+* Often within 50KB
+
+* Makes analysis of regulation more difficult (not only location has to be found, but also if combination of these elements is relevant for gene regulation)
+
 ### What does sparse linear regression mean?
+
+* Sparse in case of sparse linear regression means, that not all information is used for prediction
+
+* More features than samples
+
+* Select small subset of k features
 
 ### What is the Lasso penalty?
 
+* Given the restriction that the sum of all features must be smaller or equal to a given value t
+
+* $||B||_1\le t$
+
+* Means that some $\beta$ values become 0
+
+![Lasso](media/lecture8_lasso.png){width=70%}
+
 ### What is the Elastic-Net penalty?
 
+* Extension of Lasso penalty
+
+* Sum of L1 and L2 norm both multiplied with a value ($\lambda_1$ and $\lambda_2$ &rarr; sum = 1)
+
+* Only L1 norm: lasso
+
+* Only L2 norm: ridge (see image from question above) &rarr; encurages grouping effects
+
+![Elastic Net](media/lecture8_elastic_net.png){width=70%}
+
+* Elastic net is more flexible
+
+* Elastic-net works better when there are correlated variables (features) &rarr; slightly more time-consuming but more general
+
+* More computational intensive, because $\lambda$ value has to be optimised
+
 ### How to avoid overfitting?
+
+* Cross-validation
 
 ### Explain how open-chromatin peak data can be used to link TF binding to gene expression?
 
