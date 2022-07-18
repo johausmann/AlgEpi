@@ -854,11 +854,44 @@ to intersect the region to find overlaps
 
 * Cross-validation
 
+* Split initial data into test and train data &rarr; test how good model works with unseen data
+
+* Split test data again into train and test (k-times) &rarr; generalization of model
+
 ### Explain how open-chromatin peak data can be used to link TF binding to gene expression?
 
+* ChIP-seq data &rarr; exact postion of TF observable 
+ + For each TF a separate anitbody &rarr; to many experiments
+
+* Open chromatin around TSS &rarr; probably enhancers
+
+* Bound by TF &rarr; footprints
+
+* TEPIC
+ 1. Peak calling with open chromatin
+ 2. Annotate TF i in each peak (affinity score)
+ 3. Calculate for each gene TF combination a "regulation" score
+   + sum all affinity scores weighted by peak intensity and distance from TSS
+   
 ### What are important assumptions in the linear model with TRAP-derived TF features?
 
+* Peak/signal intensity &rarr; smaller peak could indicate that TF is less important for the regulation and vice versa
+
+* Distance &rarr; peaks further distant from TSS contribute less to regulation
+  + Based on observation that further away DNA elements interact less likely
+  
+* Affinity score / TRAP
+ + bigger peaks contribute more to affinity score
+ + larger DNA sequence scores higher affinity (multiple higher scores would be added compared to max/hit approach)
+
+
 ### What is the difference between nearest gene and window-based peak assignment?
+
+* Window based: Window around TSS &rarr; all peak within are associated with gene
+
+* Nearest gene: Assign peak to nearest gene (peak-centric view)
+
+* Both methods are imperfect &rarr; biases
 
 ### What are confounders in the TF scores based on Dnase1 peaks?
 
