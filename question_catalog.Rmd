@@ -804,6 +804,8 @@ to intersect the region to find overlaps
 
 ## 8. Integrative prediction of gene expression
 
+* TODO: add overview of TEPIC model
+
 ### What are shadow enhancers?
 
 * Enhancers with partially redundant activity (If one is removed, gene regulation not really changed, because another enhancer is shadowing and preserves basic functionality)
@@ -903,12 +905,16 @@ to intersect the region to find overlaps
 
 * Number of total peaks
 
+* The 3 features were not included in the original model, but after adding these, the random permutation resulted in a stronger performance drop, than the random permutation with the original model
+  + These 3 features are confounders
+
 ### Why is the Elastic-net more robust against bad features?
 
 * Problem of random input data is more visible than with lasso
   + permuted input data &rarr; almost all features are selected
   + correct input data &rarr; only some features are selected
-  + groups of correlated features recieve equal corefficients
+
+* Elastic-net: groups of correlated features recieve equal co-efficients
 
 * Problem with lasso
   + encurages features to have 0 coefficients
