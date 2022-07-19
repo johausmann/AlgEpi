@@ -804,7 +804,8 @@ to intersect the region to find overlaps
 
 ## 8. Integrative prediction of gene expression
 
-* TODO: add overview of TEPIC model
+![TEPIC Overview](media/lecture8_tepic.png){width=70%}
+
 
 ### What are shadow enhancers?
 
