@@ -895,7 +895,26 @@ to intersect the region to find overlaps
 
 ### What are confounders in the TF scores based on Dnase1 peaks?
 
+* Length of the peak (correlated to TF affinity)
+  + should be normalized
+  + but still correlation is high just by chance (probability to bind to larger peak is higher)
+
+* Signal
+
+* Number of total peaks
+
 ### Why is the Elastic-net more robust against bad features?
+
+* Problem of random input data is more visible than with lasso
+  + permuted input data &rarr; almost all features are selected
+  + correct input data &rarr; only some features are selected
+  + groups of correlated features recieve equal corefficients
+
+* Problem with lasso
+  + encurages features to have 0 coefficients
+  + is still selecting only a part of the features for permuted input data
+  + it is harder to tell, if the model is bad or not
+  + elastic-net should be preferred if possible
 
 ## 9. Identification of gene regulatory elements and their target genes
 
