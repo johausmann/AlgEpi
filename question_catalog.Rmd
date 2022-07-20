@@ -851,7 +851,7 @@ to intersect the region to find overlaps
 
 * Elastic-net works better when there are correlated variables (features) &rarr; slightly more time-consuming but more general
 
-* More computational intensive, because $\lambda$ value has to be optimised
+* More computational intensive, because $\lambda$ value has to be optimized
 
 ### How to avoid overfitting?
 
@@ -863,8 +863,8 @@ to intersect the region to find overlaps
 
 ### Explain how open-chromatin peak data can be used to link TF binding to gene expression?
 
-* ChIP-seq data &rarr; exact postion of TF observable 
- + For each TF a separate anitbody &rarr; to many experiments
+* ChIP-seq data &rarr; exact position of TF observable 
+ + For each TF a separate antibody &rarr; to many experiments
 
 * Open chromatin around TSS &rarr; probably enhancers
 
@@ -911,7 +911,7 @@ to intersect the region to find overlaps
 
 ### Why is the Elastic-net more robust against bad features?
 
-* Problem of random input data is more visible than with lasso
+* Problem of random input data (permutation test) is more visible than with lasso
   + permuted input data &rarr; almost all features are selected
   + correct input data &rarr; only some features are selected
 
@@ -927,98 +927,155 @@ to intersect the region to find overlaps
 
 ### How can one define regulatory elements?
 
-* REMs Regulatory Elements
+* Identify elements important for gene expression
+  + gene expression &rarr; TF in enhance and promoter
+  + Some elements can be far away from TSS &rarr; element might be small
+  + Identify association &rarr; elements regulate many genes
 
-* Open-chromatin regions (peaks)
-  + TFs sit at open-chromatin regions
+* REM = Regulatory Element 
+  + enhancers or silencers
+  + positive or negative effect on gene expression
 
-* Histone modifications
-  + Regions of enhancer associated marks
-  + E. g. H3K27ac &rarr; active enhancer; H3K4me1 &rarr; poised enhancer (may become active e. g. in stress situation)
-  + ChIP-seq
-  
+* Open chromatin
+  + TSS &rarr TF binding to promoter regions
+  + DNA devoid of nuleosome &rarr; TF binding
+ 
+* Regions of enhancer associated histone marks
+  + Histone ChIP-seq e.g. H3K27ac, H3K4me1 (poised enhancer &rarr; may become active e.g. in stress situation), H3K122ac
+  + association with enhancers shown in different experiments
+
 * Regions of enhancer associated proteins
-  + p300 ChIP-seq (many enhancers are bound by p300)
-  
-* Strategies:
-  
-* Unified Peaks of open-chromatin
-  + bedtools merge
-  + Only, if peak is found in > 1 samples
-  
-* Random forest classifier (RFECS)
-  + predict p300 sites
-  + p300 dataset as trainingset
-  + Learn histone signals to predict p300 sites
+  + p300 ChIP-seq &rarr; p300 co-activator protein involved in enhancer complexes
+ 
+* Define exact boundaries of REMs with this type of data is complicated
+  + different peaks, not all involved in the same enhancer complexes
+
+* Examples of REM identification
+  + Unified Peaks Model with open chromatin data
+     + consistency of multiple samples &rarr; merge (union) of peaks to define REM
+     + found in > 1 sample
+  + Random forest classifier to predict p300 sites (RFECS)
 
 ### Which histone marks were helpful in defining enhancers in RFECS?
 
-* H3K4me3, H3K4me1 and H3K4me2 are important
-  + simple definition of enhancer: more mono-methylation than tri-methylation
+* RFECS (TODO listen again)
+  + Uses p300 sites as a proxy to define regulatory elements &rarr; many are bound but not all
+  + Histone ChIP-seq &rarr; may cover a broader spectrum of enhancers and combinations 
+  + Learn combination that might help to distinguish REM from none-REM   
+    + Measure different ChIP-seq signal along p300 peaks (counting in bins) &rarr; used as features
+  + Aim to distinguish REM from Non-REM
+ 
+* Best performing/importance for random forest were H3K4_me{1,2,3}
+  + simple definition of enhancer: mono-methylation > tri-methylation
 
 ### What is the difference between per-sample and per-gene learning? Explain using a regression setup!
 
-* Per sample learning
-  + if not many samples are given
-  + One model per sample
-  + learn coefficients ($\beta$) per sample (coefficients could be compared between different samples)
-  + Problem: generalize over all genes, but not all genes are regulated in the same way
-  
-* Per gene learning
-  + only if many samples are given
-  + one model per gene
-  + coefficient vector for each gene (on different features)
-  + features comparable or not comparable across genes
-  + understanding of which genes are well predictable from epigenomics data
+* Two setups to use large datasets e.g. IHEC 
+  + predict enhancer-gene regulatory maps
+ 
+* Per-sample learning
+  + necessary when only a few samples are available
+  + learn parameters per sample ("column")
+  + one regulator per sample &rarr; one coefficient vector per TF per __sample__
+    + R (number of factors, enhancers) * S (number of samples) coefficients
+  + correlation of single samples &rarr; identify certain sets of coefficients that are different between conditions
+  + generalization over all genes &rarr; but genes are regulated differently
+ 
+* Per-gene learning
+  + applicable if large number of samples is available
+  + learn specific gene-regulator interactions
+  + learn parameter per gene ("rows")
+  + one coefficient vector per __gene__
+    + R (number of factors, enhancers) * N (number of genes) coefficients
+  + understanding which genes are well predictable from epigenomics data
   + more models than per sample learning
+   
   
-
 ### How can supervised segmentation be used to define gene-specific regulatory elements?
 
-* Using open-chromatin data
+* Open questions:
+  + how to identify REMs from DNaseI signal ?
+  + how to link those to changes in gene expression ?
+  
+* Previous approaches performed simple association (window, nearest gene)
 
-* Instead of looking for peaks &rarr; formulate problem as segmentation problem
+* Learn this association explicitly with regression model
+  + Learn function to predict expression given type of data
+  + interpretable coefficients and regulatory elements
+  
+* Identify regulatory elements to use
 
-* Discretise gene expression(only 0 and 1)
+  + Individual peaks model
+    + simple &rarr; not dealing with other samples
+    + create anchor point (TSS)  and take all peaks in certain window weighted by distance
+    + How much open chromatin in window &rarr; value as feature for regression
 
-* Count for every sample in small windows the signal and compare, which segments correlate with response variable (Gene Expression)
+  + Unified peaks models
+    + Identify overlapping bp in samples &rarr; REM for linear regression
 
-* Use MDL (minimal description length)
-  + Finde balance between good predictive power and interpretability
+  + Supervised segmentation
+    + Variation in DNaseI signal across samples associated with gene expression
+    + Strong signal &rarr; chromatin was accessible in many cells
+    + complex 3D conformation of DNA, looping of further away regions &rarr; peak also resemble association of DNA regions with regulated genes
+    + stable open region
+    
+* Instead of peak calling &rarr; segmentation problem
+ + Some peaks are present even if gene is not expressed
+ + Only signal in some samples with expression and in others not
+
+* Discretization of expression values
+
+* Count for every sample in small windows the DNaseI signal and compare, which segments correlate with response variable (Gene Expression)
+
+* MDL to form larger segments of initial bins that have similar association with expression classes/levels
+
+* MDL = Minimum description length
+  + solve problem of model selection
+  + Find balance between good predictive power and interpretability
+  + many combinations of segments &rarr; enumerate segementation and select the one with best balance
+    + model complexity &rarr; number of segments
+    + model can discriminate between expressed and not expressed genes
   
 * Segmentation for __each__ gene &rarr; could lead to slightly different segments for the same enhancer
 
 ### Why are STICHTIT REMs much shorter than for Genehancer?
 
-* Genehancer
-  + Vista Enhancers (Validated Enhancers)
-  + Used different methods to associate genes to these enhancers
+* Genehancer = Validated enhancers from VISTA-db linked to genes
+  + defined by p300 and other technologies &rarr; large domains
+
+* ROI in Genehancer overlaps likely enhancer &rarr; Where is the region where TF is binding?
+
+* Segmentation results in much smaller REMs on average
 
 ### What are disadvantages of the unified peaks approach?
 
-* Just combines in a blind way peak information over many samples
+* For example gene unified peaks model did not work very well
 
-* Overestimation of the size of the regulatory regions
+* A lot of open chromatin signal in front, in body and after the gene
 
-* Peak annotation completely independent of gene activity
+* Unified peaks &rarr; blindly combines peak information from many samples
+  + Over estimation of size of REMs
+  + Peak annotation is completely independent of gene expression
 
 * Also possible to have peaks at promoter region without expression &rarr; Polymerase already sitting at promoter (open-chromation) but no transciption
 
 ### What is Epiregio?
 
-* Database of learned regulatory element gene interactions
+* Database of learned REM-gene interactions
 
-* information on genes
-  + regulatory elements
-  + in different celltypes
-  + DNase signals
+* Based on STICHIT predictions of BLUEPRINT and ROADMAP data
+
+* Larger search window around gene improved gene expression prediction (correlation)
+  + Smaller window might not capture all regulatory elements (bad performing genes)
+
+* Query
+  + What are REMs for certain gene
+  + What REMs are present in certain region
   
-* Can be used to:
-  + Predict transcription factor binding sites
-  + Predict effect of epigenetic drugs (immunotherapies)
+* Study
+  + Effect of epigenetic drugs
   + Interpret TF-ChIP-seq peaks (which peaks belong to which genes)
   + Interpret mutations (link non-coding mutations to genes)
-
 
 ## 10. Studying the 3D organization of the genome
 
