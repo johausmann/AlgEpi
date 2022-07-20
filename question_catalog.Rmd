@@ -926,13 +926,99 @@ to intersect the region to find overlaps
 ## 9. Identification of gene regulatory elements and their target genes
 
 ### How can one define regulatory elements?
+
+* REMs Regulatory Elements
+
+* Open-chromatin regions (peaks)
+  + TFs sit at open-chromatin regions
+
+* Histone modifications
+  + Regions of enhancer associated marks
+  + E. g. H3K27ac &rarr; active enhancer; H3K4me1 &rarr; poised enhancer (may become active e. g. in stress situation)
+  + ChIP-seq
+  
+* Regions of enhancer associated proteins
+  + p300 ChIP-seq (many enhancers are bound by p300)
+  
+* Strategies:
+  
+* Unified Peaks of open-chromatin
+  + bedtools merge
+  + Only, if peak is found in > 1 samples
+  
+* Random forest classifier (RFECS)
+  + predict p300 sites
+  + p300 dataset as trainingset
+  + Learn histone signals to predict p300 sites
+
 ### Which histone marks were helpful in defining enhancers in RFECS?
+
+* H3K4me3, H3K4me1 and H3K4me2 are important
+  + simple definition of enhancer: more mono-methylation than tri-methylation
+
 ### What is the difference between per-sample and per-gene learning? Explain using a regression setup!
 
+* Per sample learning
+  + if not many samples are given
+  + One model per sample
+  + learn coefficients ($\beta$) per sample (coefficients could be compared between different samples)
+  + Problem: generalize over all genes, but not all genes are regulated in the same way
+  
+* Per gene learning
+  + only if many samples are given
+  + one model per gene
+  + coefficient vector for each gene (on different features)
+  + features comparable or not comparable across genes
+  + understanding of which genes are well predictable from epigenomics data
+  + more models than per sample learning
+  
+
 ### How can supervised segmentation be used to define gene-specific regulatory elements?
+
+* Using open-chromatin data
+
+* Instead of looking for peaks &rarr; formulate problem as segmentation problem
+
+* Discretise gene expression(only 0 and 1)
+
+* Count for every sample in small windows the signal and compare, which segments correlate with response variable (Gene Expression)
+
+* Use MDL (minimal description length)
+  + Finde balance between good predictive power and interpretability
+  
+* Segmentation for __each__ gene &rarr; could lead to slightly different segments for the same enhancer
+
 ### Why are STICHTIT REMs much shorter than for Genehancer?
+
+* Genehancer
+  + Vista Enhancers (Validated Enhancers)
+  + Used different methods to associate genes to these enhancers
+
 ### What are disadvantages of the unified peaks approach?
+
+* Just combines in a blind way peak information over many samples
+
+* Overestimation of the size of the regulatory regions
+
+* Peak annotation completely independent of gene activity
+
+* Also possible to have peaks at promoter region without expression &rarr; Polymerase already sitting at promoter (open-chromation) but no transciption
+
 ### What is Epiregio?
+
+* Database of learned regulatory element gene interactions
+
+* information on genes
+  + regulatory elements
+  + in different celltypes
+  + DNase signals
+  
+* Can be used to:
+  + Predict transcription factor binding sites
+  + Predict effect of epigenetic drugs (immunotherapies)
+  + Interpret TF-ChIP-seq peaks (which peaks belong to which genes)
+  + Interpret mutations (link non-coding mutations to genes)
+
 
 ## 10. Studying the 3D organization of the genome
 
