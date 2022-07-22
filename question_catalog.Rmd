@@ -1080,12 +1080,136 @@ to intersect the region to find overlaps
 ## 10. Studying the 3D organization of the genome
 
 ### What different chromatin conformation assays exist?
+
+* General idea &rarr; DNA loop / interaction of DNA
+  + Crosslink and fixate DNA parts
+  + Digest crosslinked DNA (restriction enzymes)
+  + Ligation &rarr; continuous sequence
+  + Unlink and amplify with primers
+
+* Chromatin Conformation Capture (3C)
+  + Primers for specific interaction &rarr; all interaction with the regions
+  + Amplify with PCR &rarr; statement if interaction exists
+
+* Chromatin Conformation Capture-on-chip (4C)
+  + Extension of 3C
+  + 2 primer for one region
+  + amplify ligated products that consist of ROI plus anything else
+  + define one locus and study all interactions with it
+  
+* Chromatin Conformation Capture Carbon Copy (5C)
+  + large set of primers
+  + amplification of all combinations
+  + e.g. Primers for all gene promoters
+
+* Hi-C
+  + Add biotin prior to ligation
+  + Pull down all ligated fragments with biotin
+  + Enrichment method for all DNA-DNA ligated fragments
+  + Deep sequencing required to study interactions genome wide
+
+* ChIP-loop (ChIP-seq + 3c)
+  + Antibody against protein of interest
+  + Pull down fragments with POI
+  + Perform 3C
+
+* ChIA-PET (ChIP-seq + Hi-C)
+  + Enrichment of ligated fragments &rarr; Hi-C on subset
+
 ### What is a contact matrix in this context?
+
+* Sampling pairs of DNA-contacts
+
+* Amount of DNA-DNA contacts/reads mapped to different positions in the genome
+
+* Symmetric matrix/heatmap
+  + Each dot is 10 kB window
+  + Shows interaction of regions &rarr; darker color means high/lot interaction
+
+* Similarities between different enzymes
+  + Assay &rarr; result is function of decisions during assay e.g. used enzyme 
+
 ### What are TADs?
+
+* Topologically Associated Domains &rarr; regions of high interaction frequency
+
+* Study structure emerging from these contacts
+
+* Take half of contact matrix and make diagonal the x-axis
+
+* Triangles &rarr; lot of interaction in this domain/interval
+
+* Very few interactions between domains/intervals &rarr; TADs
+  + Hierarchy in terms of interactions &rarr; broken between TADs by boundary
+
+* Combined with gene expression data &rarr; A & B compartments
+  + Active compartment &rarr; highly expressed genes/histone marks associated with active transcription
+  + Inactive compartment &rarr; low expression of genes / chromatin condensed
+
+* B-compartment close to lamina nucleus &rarr; lamina associated domains (larger TADs)
+
+* A-compartment inside and may co occur with speckless
+
+* Agreement of TADs and epigenomic organisation and gene expression
+
+* Enhancer of expressed genes must be part of TAD &rarr; otherwise we would see interaction in Hi-C view
+
 ### How are loops formed?
+
+* Formed by cohesion protein
+
+* Multi-subunit protein complex of SMC1, SMC3, RAD21 and SCC3 &rarr; forms a ring
+
+* Essential for TADs and loop formation
+
+* DNA is pulled through the cohesion ring 
+
 ### How to define super-enhancers
+
+* Identification of enhancer locations
+  + ChIP-seq experiment for TF &rarr; peak calling
+
+* Clustering of enhancers
+  * Distance threshold is 12.5 kb &rarr; stitching/grouping regions of not to large distance
+
+* Identify super-enhancers
+  * Mediator enrichment &rarr; complex involved in enhancer-promoter looping
+  * Certain regions have massive mediator enrichment (ChIP-seq)
+  
+* Large regions with many peaks and much mediator &rarr; super enhancers
+
+* Involved in differentiation process e.g. cell identity genes
+
+* Loss of cohesion results in loss of TADs/loops
+
+* cohesion loops control super-enhancer activity
+
 ### Which TF is involved in stable loop formation and by interaction with which protein complex
+
+* CTCF (Boundary transcription factor) is part of boundary elements, loop anchors
+
+* Not essential for chromatin interactions
+
+* Cohesion stops if two opposing CTCF sites are present &rarr; loop extrusion stops
+  + orientation is important &rarr; forward and reverse strand
+  + Cohesion doens't stop if CTCF isn't opposing
+  
+* Averaging over many cells &rarr; latency in CTCF removal results in stable loop formation
+
 ### How to call TADs from Hi-C data?
+
+* TopDom method
+  + Idea &rarr; move square of certain size along x-axis
+    + Find points where number of contacts is much smaller compared to neighboring regions(shifting the square)
+    + local minimum along bin signals
+    + bin signal is average contact frequency in square
+  1. Comptue normalized signal per bin
+    + w is bin size
+      + U~i~ = upstream windows, D~i~ = upstream windows
+    + Sum contact frequencies in all pixels &rarr; normalize by pixels in square
+    + Compute normalized signal per bin
+  2.
+
 ### How can one integrate Hi-c data to predict gene expression with epigenomics data?
 
 ## 11. Integrative analysis of ChIP-seq data with chromatin state segmentation
