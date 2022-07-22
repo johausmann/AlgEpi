@@ -1081,102 +1081,148 @@ to intersect the region to find overlaps
 
 ### What different chromatin conformation assays exist?
 
-* General Procedure:
-  + fixate the DNA parts that are close together/in contact
-  + digest the DNA that is not crosslinked
-  + ligate two ends of the two crosslinked DNA strands
-  + reverse crosslinking
-  
+* General idea &rarr; DNA loop / interaction of DNA
+  + Crosslink and fixate DNA parts
+  + Digest crosslinked DNA (restriction enzymes)
+  + Ligation &rarr; continuous sequence
+  + Unlink and amplify with primers
+
 ![Conformation General Procedure](media/lecture10_conformation.png){width=70%}
 
-* Chromatin conformation capture (3C)
+* Chromatin Conformation Capture (3C)
   + one vs one
-  + look at specific regions (specific primers)
-  + does this interaction exist? (PCR)
+  + Primers for specific interaction &rarr; all interaction with the regions
+  + Amplify with PCR &rarr; statement if interaction exists
 
-* Chromatin conformation capture-on-chip (4C)
+* Chromatin Conformation Capture-on-chip (4C)
   + one vs all
-  + amplify all combinations with one specific region
-  + sequence or microarray analysis afterwards
+  + Extension of 3C
+  + 2 primer for one region
+  + amplify ligated products that consist of ROI plus anything else
+  + define one locus and study all interactions with it
   
-* Chromatin conformation capture carbon copy (5C)
+* Chromatin Conformation Capture Carbon Copy (5C)
   + many vs many
-  + large set of primers 
-  + amplify all the combinations
-  + e.g. create primers for all promoters &rarr; get all contacts between promoters
-  + Problem: not really scalable to create all the primers
-  
+  + large set of primers
+  + amplification of all combinations
+  + e.g. Primers for all gene promoters
+
 * Hi-C
   + all vs all
-  + after crosslinking cut with restriction enzyme at known positions
-  + fill the ends and mark with biotin (add biotin before the ligation step)
-  + pull down all ligated biotinylated fragments (loops)
-  
-* ChIP-loop (ChIP-seq + 3C)
+  + Add biotin prior to ligation
+  + Pull down all ligated fragments with biotin
+  + Enrichment method for all DNA-DNA ligated fragments
+  + Deep sequencing required to study interactions genome wide
+
+* ChIP-loop (ChIP-seq + 3c)
   + one vs one
-  + Combine with chromatin immuno precipitation
-  + antibody against protein of interest
-  + pull down all the ligated fragments, that are bound to that protein
-  + semi-quantitative PCR
-  
-* ChIA-PET (Hi-C + ChIP-seq)
+  + Antibody against protein of interest
+  + Pull down ligated fragments with POI
+  + Perform 3C
+
+* ChIA-PET (ChIP-seq + Hi-C)
   + all vs all
-  + pull down protein of interest first
-  + Hi-C
+  + Enrichment of ligated fragments that were immunoprecipitated by POI &rarr; Hi-C on subset
 
 ### What is a contact matrix in this context?
 
-* Hi-C is really deep sequencing (combination of all possible contacts)
+* Sampling pairs of DNA-contacts
 
-* Plots how many reads map to other position in genome
-  + e.g. each dot is a 10kb window
+* Amount of DNA-DNA contacts/reads mapped to different positions in the genome
+
+* Symmetric matrix/heatmap
+  + Each dot is 10 kB window
+  + Shows interaction of regions &rarr; darker color means high/lot interaction
+
+* Similarities between different enzymes
+  + Assay &rarr; result is function of decisions during assay e.g. used enzyme 
 
 ### What are TADs?
 
-* Topologically associated domains 
-  + Regions with a lot of interaction
+* Topologically Associated Domains &rarr; regions of high interaction frequency
   + very few interactions with neighbouring regions
-  + regions can be classified in A and B compartments (alternating) A &rarr; genes actively transcribed; B &rarr; active genes very rare
-  + B compartments close to lamina
-  + Enhancers for genes are very likely in same TAD
+
+* Study structure emerging from these contacts
+
+* Take half of contact matrix and make diagonal the x-axis
+
+* Triangles &rarr; lot of interaction in this domain/interval
+
+* Very few interactions between domains/intervals &rarr; TADs
+  + Hierarchy in terms of interactions &rarr; broken between TADs by boundary
+
+* Combined with gene expression data &rarr; alternating A & B compartments
+  + Active compartment &rarr; highly expressed genes/histone marks associated with active transcription
+  + Inactive compartment &rarr; low expression of genes / chromatin condensed
+
+* B-compartment close to lamina nucleus &rarr; lamina associated domains (larger TADs)
+
+* A-compartment inside and may co occur with speckless
+
+* Agreement of TADs and epigenomic organisation and gene expression
+
+* Enhancer of expressed genes must be part of TAD &rarr; otherwise we would see interaction in Hi-C view
 
 ### How are loops formed?
 
-* Cohesion (multi-subunit protein complex &rarr; ring) is essential for TADs and looping
-  + DNA is pulled trough the cohesion ring
-  + stops when reaching two opposing boundaries
-  + Boundary region CTCF (transcription factor) &rarr; orientation based on motif orientation
+* Formed by cohesion protein
+
+* Multi-subunit protein complex of SMC1, SMC3, RAD21 and SCC3 &rarr; forms a ring
+
+* Essential for TADs and loop formation
+
+* DNA is pulled through the cohesion ring 
 
 ### How to define super-enhancers
 
-* Often close to cell identity genes
-  + cell needs a lot of regulation for this gene
+1. Identification of enhancer locations
+  + ChIP-seq experiment for TF &rarr; peak calling
+
+2. Clustering of enhancers
+  * Distance threshold is 12.5 kb &rarr; stitching/grouping regions of not to large distance
+
+3. Identify super-enhancers
+  * Mediator enrichment &rarr; complex involved in enhancer-promoter looping
+  * Certain regions have massive mediator enrichment (ChIP-seq)
   
-* If cohesion is depleted, super enhancers have contact to other regions that they normally do not have
+* Large regions with many peaks and much mediator &rarr; super enhancers
 
-* Enhancer regions that are highly associated to Mediator complex (involved in enhancer gene looping)
+* Involved in differentiation process e.g. cell identity genes
 
-1. Identify enhancer locations using ChIP-seq signal
-2. Cluster enhancers that are in the range of 12.5kb (arbitary range)
-3. Med1 ChIP-seq &rarr; regions with extremely high Med1 enrichment are super-enhancers
+* Loss of cohesion results in loss of TADs/loops
+
+* cohesion loops control super-enhancer activity
+  + If cohesion is depleted, super enhancers have contact to other regions that they normally do not have
 
 ### Which TF is involved in stable loop formation and by interaction with which protein complex
 
-* CTCF with cohesion
+* CTCF (Boundary transcription factor) is part of boundary elements, loop anchors
+
+* Not essential for chromatin interactions
+
+* Cohesion stops if two opposing CTCF sites are present &rarr; loop extrusion stops
+  + orientation is important &rarr; forward and reverse strand
+  + Cohesion doens't stop if CTCF isn't opposing
+  
+* Averaging over many cells &rarr; latency in CTCF removal results in stable loop formation
 
 ### How to call TADs from Hi-C data?
 
-* By visualization (juicebox)
-
-* Challenge: call on which resolution (large block of interaction or small)
-
-* TopDom
-  1. Compute normalized signal per bin (bin i +- w); w is the only parameter to set (smaller or larger TADs)
+* TopDom method
+  + Idea &rarr; move square of certain size along x-axis
+    + Find points where number of contacts is much smaller compared to neighboring regions(shifting the square)
+    + local minimum along bin signals
+    + bin signal is average contact frequency in square
+  1. Comptue normalized signal per bin
+    + w is bin size
+      + U~i~ = upstream windows, D~i~ = upstream windows
+    + Sum contact frequencies in all pixels &rarr; normalize by pixels in square
+    + Compute normalized signal per bin
   2. Move square and find square with minimum interaction &rarr; boundary
   3. Filter false positive (overall not many interactions in region but local minimum)
     + compare between and within interaction using wilcox rank sum
   * To check correctness: CTCF ChIP-seq signal at boundaries, PolymeraseII &rarr; stopps cohesine at least some time TSS
-    
+
 * HiCCUPS (Juicer)
   + Does alignment and chimera handling, merging, sorting, duplicate removal and map creation
   + Loop calling &rarr; region in matrix with adjacent pixels with higher number of contacts than background
