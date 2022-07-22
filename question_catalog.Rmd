@@ -1080,13 +1080,128 @@ to intersect the region to find overlaps
 ## 10. Studying the 3D organization of the genome
 
 ### What different chromatin conformation assays exist?
+
+* General Procedure:
+  + fixate the DNA parts that are close together/in contact
+  + digest the DNA that is not crosslinked
+  + ligate two ends of the two crosslinked DNA strands
+  + reverse crosslinking
+  
+![Conformation General Procedure](media/lecture10_conformation.png){width=70%}
+
+* Chromatin conformation capture (3C)
+  + one vs one
+  + look at specific regions (specific primers)
+  + does this interaction exist? (PCR)
+
+* Chromatin conformation capture-on-chip (4C)
+  + one vs all
+  + amplify all combinations with one specific region
+  + sequence or microarray analysis afterwards
+  
+* Chromatin conformation capture carbon copy (5C)
+  + many vs many
+  + large set of primers 
+  + amplify all the combinations
+  + e.g. create primers for all promoters &rarr; get all contacts between promoters
+  + Problem: not really scalable to create all the primers
+  
+* Hi-C
+  + all vs all
+  + after crosslinking cut with restriction enzyme at known positions
+  + fill the ends and mark with biotin (add biotin before the ligation step)
+  + pull down all ligated biotinylated fragments (loops)
+  
+* ChIP-loop (ChIP-seq + 3C)
+  + one vs one
+  + Combine with chromatin immuno precipitation
+  + antibody against protein of interest
+  + pull down all the ligated fragments, that are bound to that protein
+  + semi-quantitative PCR
+  
+* ChIA-PET (Hi-C + ChIP-seq)
+  + all vs all
+  + pull down protein of interest first
+  + Hi-C
+
 ### What is a contact matrix in this context?
+
+* Hi-C is really deep sequencing (combination of all possible contacts)
+
+* Plots how many reads map to other position in genome
+  + e.g. each dot is a 10kb window
+
 ### What are TADs?
+
+* Topologically associated domains 
+  + Regions with a lot of interaction
+  + very few interactions with neighbouring regions
+  + regions can be classified in A and B compartments (alternating) A &rarr; genes actively transcribed; B &rarr; active genes very rare
+  + B compartments close to lamina
+  + Enhancers for genes are very likely in same TAD
+
 ### How are loops formed?
+
+* Cohesion (multi-subunit protein complex &rarr; ring) is essential for TADs and looping
+  + DNA is pulled trough the cohesion ring
+  + stops when reaching two opposing boundaries
+  + Boundary region CTCF (transcription factor) &rarr; orientation based on motif orientation
+
 ### How to define super-enhancers
+
+* Often close to cell identity genes
+  + cell needs a lot of regulation for this gene
+  
+* If cohesion is depleted, super enhancers have contact to other regions that they normally do not have
+
+* Enhancer regions that are highly associated to Mediator complex (involved in enhancer gene looping)
+
+1. Identify enhancer locations using ChIP-seq signal
+2. Cluster enhancers that are in the range of 12.5kb (arbitary range)
+3. Med1 ChIP-seq &rarr; regions with extremely high Med1 enrichment are super-enhancers
+
 ### Which TF is involved in stable loop formation and by interaction with which protein complex
+
+* CTCF with cohesion
+
 ### How to call TADs from Hi-C data?
+
+* By visualization (juicebox)
+
+* Challenge: call on which resolution (large block of interaction or small)
+
+* TopDom
+  1. Compute normalized signal per bin (bin i +- w); w is the only parameter to set (smaller or larger TADs)
+  2. Move square and find square with minimum interaction &rarr; boundary
+  3. Filter false positive (overall not many interactions in region but local minimum)
+    + compare between and within interaction using wilcox rank sum
+  * To check correctness: CTCF ChIP-seq signal at boundaries, PolymeraseII &rarr; stopps cohesine at least some time TSS
+    
+* HiCCUPS (Juicer)
+  + Does alignment and chimera handling, merging, sorting, duplicate removal and map creation
+  + Loop calling &rarr; region in matrix with adjacent pixels with higher number of contacts than background
+  + use GPU to scan trillions of pixels
+  + checks anchors for CTCF binding motifs as additional information for loop
+
 ### How can one integrate Hi-c data to predict gene expression with epigenomics data?
+
+* predict gene expression not from TF but from chromatin data
+
+* not use affinity data anymore
+
+* but link peaks to TSS
+
+* Input: contact matrix and epicenetic measurement (e.g. DNaseI-seq peaks)
+
+* Predict gene expression for TSS using also peaks that interact with chromatin in a window arround this TSS
+
+* Again: linear regression (INVOKE) &rarr; elastic net
+  + 6 features (at promoter and at loop windows): num peaks, DNaseI signal, sum of peak lenghts 
+  
+* boosts performance of model without HiC/Hi-ChIP data
+
+* also possible to study, if TF binds to loop side or at promoter side
+  + same model but now with TF features at promoter and at loop windows
 
 ## 11. Integrative analysis of ChIP-seq data with chromatin state segmentation
 
