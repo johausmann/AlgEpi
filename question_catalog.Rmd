@@ -1140,7 +1140,7 @@ to intersect the region to find overlaps
 ### What are TADs?
 
 * Topologically Associated Domains &rarr; regions of high interaction frequency
-  + very few interactions with neighbouring regions
+  + very few interactions with neighboring regions
 
 * Study structure emerging from these contacts
 
@@ -1213,38 +1213,43 @@ to intersect the region to find overlaps
     + Find points where number of contacts is much smaller compared to neighboring regions(shifting the square)
     + local minimum along bin signals
     + bin signal is average contact frequency in square
-  1. Comptue normalized signal per bin
+  1. Compute normalized signal per bin
     + w is bin size
       + U~i~ = upstream windows, D~i~ = upstream windows
     + Sum contact frequencies in all pixels &rarr; normalize by pixels in square
     + Compute normalized signal per bin
-  2. Move square and find square with minimum interaction &rarr; boundary
+  2. Move square and find square with minimum interaction / minima in signal &rarr; boundary
   3. Filter false positive (overall not many interactions in region but local minimum)
-    + compare between and within interaction using wilcox rank sum
-  * To check correctness: CTCF ChIP-seq signal at boundaries, PolymeraseII &rarr; stopps cohesine at least some time TSS
+    + compare between and within interaction using wilcox rank sum test
+    + __between__ interaction = signal in bin
+    + __within__ interaction = signal in upstream and downstream windows
+  * To check correctness: CTCF ChIP-seq signal at boundaries, PolymeraseII &rarr; stop's cohesine at least some time TSS
 
 * HiCCUPS (Juicer)
   + Does alignment and chimera handling, merging, sorting, duplicate removal and map creation
-  + Loop calling &rarr; region in matrix with adjacent pixels with higher number of contacts than background
+  + Loop calling &rarr; region in matrix with adjacent pixels with higher number of contacts (read counts) than local/close background
   + use GPU to scan trillions of pixels
   + checks anchors for CTCF binding motifs as additional information for loop
 
 ### How can one integrate Hi-c data to predict gene expression with epigenomics data?
 
 * predict gene expression not from TF but from chromatin data
+  + number of peaks, signal intensity
 
-* not use affinity data anymore
+* not use affinity data anymore &rarr; instead link peaks to TSS
 
-* but link peaks to TSS
+* Input: contact matrix and epigenetic measurement (e.g. DNaseI-seq peaks)
 
-* Input: contact matrix and epicenetic measurement (e.g. DNaseI-seq peaks)
+* Identify associated peaks in far away regions with Hi-C window
+  + Define Loop anchor window
+  + Take peaks from HiC/Hi-ChIP loop window that overlaps Loop anchir window
 
-* Predict gene expression for TSS using also peaks that interact with chromatin in a window arround this TSS
+* Predict gene expression using associated peaks that interact with chromatin in a window around this TSS
 
-* Again: linear regression (INVOKE) &rarr; elastic net
-  + 6 features (at promoter and at loop windows): num peaks, DNaseI signal, sum of peak lenghts 
+* Again: linear regression (INVOKE) &rarr; elastic net 
+  + 6 features (at promoter and at loop windows): number of peaks, DNaseI signal, sum of peak lenghts wieghted by distance 
   
-* boosts performance of model without HiC/Hi-ChIP data
+*  HiC/Hi-ChIP data boosts performance of model compared to baseline (only peaks around promoter) 
 
 * also possible to study, if TF binds to loop side or at promoter side
   + same model but now with TF features at promoter and at loop windows
