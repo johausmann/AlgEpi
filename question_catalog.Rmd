@@ -1242,7 +1242,7 @@ to intersect the region to find overlaps
 
 * Identify associated peaks in far away regions with Hi-C window
   + Define Loop anchor window
-  + Take peaks from HiC/Hi-ChIP loop window that overlaps Loop anchir window
+  + Take peaks from HiC/Hi-ChIP loop window that overlaps Loop anchir windows
 
 * Predict gene expression using associated peaks that interact with chromatin in a window around this TSS
 
