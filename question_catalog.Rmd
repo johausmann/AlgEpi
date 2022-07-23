@@ -227,7 +227,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 * GC bias (PCR protocol biased not to amplify GC rich fragments)
 * Read start bias (Random primers prefer certain positions over others)
 
-## 3. Analysis of differential expression data and interpretation
+## 3. Analysis of differential expression data and interpretation {#deg}
 
 ### Which normalization does DEseq2 use?
 
@@ -1242,14 +1242,14 @@ to intersect the region to find overlaps
 
 * Identify associated peaks in far away regions with Hi-C window
   + Define Loop anchor window
-  + Take peaks from HiC/Hi-ChIP loop window that overlaps Loop anchir windows
+  + Take peaks from HiC/Hi-ChIP loop window that overlap loop anchor windows
 
 * Predict gene expression using associated peaks that interact with chromatin in a window around this TSS
 
 * Again: linear regression (INVOKE) &rarr; elastic net 
-  + 6 features (at promoter and at loop windows): number of peaks, DNaseI signal, sum of peak lenghts wieghted by distance 
+  + 6 features (at promoter and at loop windows): number of peaks, DNaseI signal, sum of peak lengths weighted by distance 
   
-*  HiC/Hi-ChIP data boosts performance of model compared to baseline (only peaks around promoter) 
+* HiC/Hi-ChIP data boosts performance of model compared to baseline (only peaks around promoter) 
 
 * also possible to study, if TF binds to loop side or at promoter side
   + same model but now with TF features at promoter and at loop windows
@@ -1257,14 +1257,117 @@ to intersect the region to find overlaps
 ## 11. Integrative analysis of ChIP-seq data with chromatin state segmentation
 
 ### What is chromatin state segmentation?
+
+* Given multiple tracks of histone marks &rarr; define regions where particular combinations are found
+
+* Find regions in genome where certain marks with similar functional impact are enriched
+
+* States * Modification marks martrix
+
+  + Row = frequency of each histone mark in each state
+
+* All genomic regions labeled with this state show evidence for this histone mark
+
 ### What is the advantage of chromatin state segmentation?
+
+* Allows interpretation of histone mark combinations
+  + Based on knowledge of single histone marks
+
+* Overlap with annotation features &rarr; function(al) impact
+
+* Growing set of ChIP-seq experiments &rarr; working with individual peaks not feasible
+  + Joint analysis and functional annotation
+
 ### How does ChromHMM do the segmentation (underlying model/probability distribution)?
+
+* Unsupervised HMM approach to learn states
+
+* Genome split into non-overlapping 200bp intervals
+
+* Discretization of Histone marks (signal)
+  + Convert to binomial with Poission distribution &rarr; 1 = mark present, 0 = mark not present
+
+* Multivariate bionomial distribution
+
+* Each state is a multivariate bionomial because histone marks are bionomial
+
+* Fixed number of states &rarr; parameter
+  + HMM learns transition- and emission probabilities  
+  + Probability for each mark learned by segmenting the genome into states
+
 ### How can I compute a unified chromatin state model over several cell types?
+
+* Given multiple cell lines &rarr; comparison of epigenoic activity
+
+* ChromHMM supports joint learning
+
+* Virtual concatenation of histone signal tracks
+  + each chromosome * number of samples
+
+* Concatenation of each epigenome &rarr; single data vector
+
+* HMM learned on merged vector
+
+* State definitions common in all samples &rarr; direct comparison possible
+
+* Location might be different &rarr; cell type specific states
+
 ### How can I use chromatin states to predict cell types of origin for GWAS SNPs?
+
+* SNPs associated with certain diseases
+
+* Chromatin state overlapping SNP &rarr; functional impact derivable
+
+* SNPs can be found in active promoters across all cell types
+
+* Cell type specific effects observable &rarr; SNP overlaps only in one tissue a chromatin segment
+
+* In K562 a sig. number of SNPs overlap with cell specific strong enhancers
+  + Might be interesting tissue/cell for further experiments
+
+* Non coding mutations &rarr; effect in cell types unknown
+  + SNP may overlap enhancer (active) = SNP with effect
+  + SNP may overlap non active enhancer = SNP without effect
+
 ### Why is EpiCSeg better than ChromHMM?
+
+* EpiCSeg uses count signal compared to the discretized signals in ChromHMM
+
+* Negative Binomial used to model count data [see lecture 3](#deg)
+
+* Account for over dispersion of histone count data
+
+* Counts are more robust (Discretization is more robust to outliers but creates noise at decision boundaries)
+
+* Improves correlation with actual transcription
+
+* Improves robustness of segmentation between biological replicates
+  + high agreement expected
+  
 ### Which statistical approach is used in Sciddo?
+
+* Chromatin state maps and emission probabilities are called with different tool
+
+* Emission probability is converted to state similarity score &rarr; state dissimilarity matrix
+
+* Used to find discriminatory regions in terms of epigenome regions
+
+* Scan for regions with difference
+
+* Generate/calculate score &rarr; pick regions where score is different between conditions
+  + Differential chromatin domains &rarr; local score statistic 
+  + Calculated along bins
+  
+* Local score statistic &rarr; given a sequence of scores find subsegments of maximum positive score
+  + p-value can calculated for each subsegment
+  + Scores in random sequences follow Gumbel distribution &rarr; null distribution
+
+* Aggregated into Differential Chromatin domains &rarr; large regions with difference in epigenome
+
 ### What advantages do differential chromatin domains have compared to individual peak analyses?
+
 ### Why can use differential chromatin domains to reason about similarity of cell types?
+
 ### How does ChromDet learn chromatin determining regions?
 
 
