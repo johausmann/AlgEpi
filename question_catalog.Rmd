@@ -176,6 +176,8 @@ methylation is reduced to a minmum &rarr; totipotent cell types
   + Normalize read counts by number of reads mapped scaled by arbitrary scaling factor (10^9)
   + Scale normalized read counts by gene length (sum of exons)
 
+![PRKM formula](media/lecture2_rpkm.png){width=50%}
+
 * TPM (Transcript per Million)
   + T = total number of transcripts sampled in sequencing run (weighted by length)
     + Sum over all genes estimated number of transcripts per gene ("one read per transcript")
@@ -183,6 +185,8 @@ methylation is reduced to a minmum &rarr; totipotent cell types
     + M number in RPKM treats each read the same
   + Normalize read count by gene length
   + Normalize by sequencing depth
+
+![TPM formula](media/lecture2_tpm.png){width=50%}
 
 ### Why is TPM better?
 
@@ -192,6 +196,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
   + Values are not comparable between samples e.g. same value between replicates are different proportions or relative expression
 
 * With TPM all columns sum up to 1 Million &rarr; better comparison
+
 
 ### How to quantify transcript expression?
 
@@ -384,7 +389,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 * Direct or indirect binding cannot be directly inferred from the resulting sequencing data
 
-![Comparison direct and indirect binding](media/lecture4_binding.png)
+![Comparison direct and indirect binding](media/lecture4_binding.png){width=50%}
 
 ### Explain basic quality steps for ChIP-seq data?
 
