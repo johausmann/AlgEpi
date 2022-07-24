@@ -1176,14 +1176,14 @@ to intersect the region to find overlaps
 ### How to define super-enhancers
 
 1. Identification of enhancer locations
-  + ChIP-seq experiment for TF &rarr; peak calling
+    + ChIP-seq experiment for TF &rarr; peak calling
 
 2. Clustering of enhancers
-  * Distance threshold is 12.5 kb &rarr; stitching/grouping regions of not to large distance
+    + Distance threshold is 12.5 kb &rarr; stitching/grouping regions of not to large distance
 
 3. Identify super-enhancers
-  * Mediator enrichment &rarr; complex involved in enhancer-promoter looping
-  * Certain regions have massive mediator enrichment (ChIP-seq)
+    + Mediator enrichment &rarr; complex involved in enhancer-promoter looping
+    + Certain regions have massive mediator enrichment (ChIP-seq)
   
 * Large regions with many peaks and much mediator &rarr; super enhancers
 
@@ -1214,15 +1214,15 @@ to intersect the region to find overlaps
     + local minimum along bin signals
     + bin signal is average contact frequency in square
   1. Compute normalized signal per bin
-    + w is bin size
-      + U~i~ = upstream windows, D~i~ = upstream windows
-    + Sum contact frequencies in all pixels &rarr; normalize by pixels in square
-    + Compute normalized signal per bin
+      + w is bin size
+        + U~i~ = upstream windows, D~i~ = upstream windows
+      + Sum contact frequencies in all pixels &rarr; normalize by pixels in square
+      + Compute normalized signal per bin
   2. Move square and find square with minimum interaction / minima in signal &rarr; boundary
   3. Filter false positive (overall not many interactions in region but local minimum)
-    + compare between and within interaction using wilcox rank sum test
-    + __between__ interaction = signal in bin
-    + __within__ interaction = signal in upstream and downstream windows
+      + compare between and within interaction using wilcox rank sum test
+      + __between__ interaction = signal in bin
+      + __within__ interaction = signal in upstream and downstream windows
   * To check correctness: CTCF ChIP-seq signal at boundaries, PolymeraseII &rarr; stop's cohesine at least some time TSS
 
 * HiCCUPS (Juicer)
@@ -1362,14 +1362,48 @@ to intersect the region to find overlaps
   + p-value can calculated for each subsegment
   + Scores in random sequences follow Gumbel distribution &rarr; null distribution
 
-* Aggregated into Differential Chromatin domains &rarr; large regions with difference in epigenome
+* Aggregated into Differential Chromatin Domains (DCD) &rarr; large regions with difference in epigenome
 
 ### What advantages do differential chromatin domains have compared to individual peak analyses?
 
+* Testing SCIDDO vs. peak calling
+
+* Predict differential expressed genes using peaks or domains overlapping annotation elements
+  + gene body
+  + body + 3 enhancer elements
+
+* Gold standard &rarr; DEG from RNA
+  + How many of these can be explained by differences in chromatin domains, individual peaks
+
+* Compared to single differential peaks CDCs always performs better (F1-score, Accuracy)
+
 ### Why can use differential chromatin domains to reason about similarity of cell types?
+
+* Similar tissues/ cell types will have very similar chromatin &rarr; less DCDs
+
+* DCD's capture differences in gene expression, enhance usage etc.
+
+* Very different cell types &rarr; more DCDs because genes, enhancers are different
 
 ### How does ChromDet learn chromatin determining regions?
 
+* Study used Blueprint data with 6 different histone/chromatin marks ChIP-seq data
+
+* Idea: Determine regions that differentiate cell types
+  * Genome segmentation with ChromHMM &rarr; simplified with 5 states
+  * Chromatin states are used to determine chromatin determining regions (CDR)
+  * CDR specific for individual or groups of cell type
+
+* Method uses multiple correspondence analysis (MDA)
+  * Matrix encodes sample * state annotation (each region in the genome)
+  * Dimension reduction to cluster samples into chromatin sample space &rarr; what samples are similar/close by
+  * Project clustering to find co-occurring chromatin state patterns according to the clustering
+  * Which chromatin state patterns of a region in all samples determine a state 
+  * state patterns (fingerprints) that correlate with assignment to sample space states
+
+* MDA is similar to PCA &rarr; categorical data
+  + component to explain variance
+  + chromatin state information is able to explain difference e.g. different cell types generated or amount of differentiation
 
 
 
