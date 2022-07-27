@@ -62,10 +62,10 @@ transcription factors
 
 ### What are histone modifcations?
 
-* DNA is wrapped around Histones (protein of a certain type)
+* DNA is wrapped around histones (protein of a certain type)
   + DNA + core histones &rarr; nucleosome
 
-* Addition of H1 (linker histone) &rarr; 30nm fibre (less active genes)
+* Addition of H1 (linker histone) &rarr; 30nm fiber (less active genes)
 
 * Biochemical modifications of core histones
   + influence affinity of linker histone (H1)  
@@ -103,7 +103,7 @@ transcription factors
 
 
 * Chromatin structure of germ cells loosened and DNA
-methylation is reduced to a minmum &rarr; totipotent cell types
+methylation is reduced to a minimum &rarr; totipotent cell types
 
 * cell-type specific pattern established in following cell division cycles &rarr; cell-type specific gene expression
 
@@ -261,7 +261,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
   + For Poisson mean and variance is always the same
 
 * Negative Binomial to capture this (Poisson with varying mean)
-  + Mean different from variance that needs to be modelled
+  + Mean different from variance that needs to be modeled
   + Can model more complex shapes
   + Ratio of standard deviation and mean captured = CV value
 
@@ -290,7 +290,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### How does DEseq2 fit the dispersion for genes?
 
-* Dispersion is part of variance in negative bionomial
+* Dispersion is part of variance in negative binomial
 
 * Dispersion plot &rarr; each black dot is dispersion estimate per gene (maximum likelihood)
 
@@ -465,7 +465,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
   + Binning based
   + If only one replicate is given
   + First calls peaks using Input and ChIP bam files
-  + Secondly outputs bedfiles for log-likelihood ratio test result (cond 1 > cond 2 and vice versa, similar enrichment in both conditions)
+  + Secondly outputs bed files for log-likelihood ratio test result (cond 1 > cond 2 and vice versa, similar enrichment in both conditions)
   
 * diffBind
 
@@ -920,10 +920,10 @@ to intersect the region to find overlaps
   + permuted input data &rarr; almost all features are selected
   + correct input data &rarr; only some features are selected
 
-* Elastic-net: groups of correlated features recieve equal co-efficients
+* Elastic-net: groups of correlated features receive equal co-efficients
 
 * Problem with lasso
-  + encurages features to have 0 coefficients
+  + encourages features to have 0 coefficients
   + is still selecting only a part of the features for permuted input data
   + it is harder to tell, if the model is bad or not
   + elastic-net should be preferred if possible
