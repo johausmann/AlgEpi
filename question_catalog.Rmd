@@ -558,7 +558,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### Why is epigenetics on cell-free DNA interesting?
 
-* Cell-free DNA (cfDNA) is DNA, that is relased into the blood stream by cells via e.g. Apoptosis, Necrosis or Secretion
+* Cell-free DNA (cfDNA) is DNA, that is released into the blood stream by cells via e.g. Apoptosis, Necrosis or Secretion
 
 * This DNA can be epigenetically studied e.g. for methylation patterns
 
@@ -1290,7 +1290,7 @@ to intersect the region to find overlaps
 * Genome split into non-overlapping 200bp intervals
 
 * Discretization of Histone marks (signal)
-  + Convert to binomial with Poission distribution &rarr; 1 = mark present, 0 = mark not present
+  + Convert to binomial with Poisson distribution &rarr; 1 = mark present, 0 = mark not present
 
 * Multivariate bionomial distribution
 
@@ -1388,7 +1388,7 @@ to intersect the region to find overlaps
 
 * Compared to single differential peaks CDCs always performs better (F1-score, Accuracy)
 
-### Why can we use differential chromatin domains to reason about similarity of cell types?
+### Why can you use differential chromatin domains to reason about similarity of cell types?
 
 * Similar tissues/ cell types will have very similar chromatin &rarr; less DCDs
 
