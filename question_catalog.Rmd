@@ -97,7 +97,7 @@ transcription factors
 
 * 1957: Conrad Waddington's concept of an epigenetic landscape to represent the process of cellular decision-making during development. At various points in this dynamic visual metaphor, the cell (represented by a ball) can take specific permitted trajectories, leading to different outcomes or cell fates.
 
-* Dellular differentiation can be considered an epigenetic phenomenon, largely governed by changes in “epigenetic landscape” rather than alterations in genetic inheritance
+* Cellular differentiation can be considered an epigenetic phenomenon, largely governed by changes in “epigenetic landscape” rather than alterations in genetic inheritance
 
 ![Waddington's Classical Epigenetic Landscape](media/lecture1_waddington.jpg){width=50%}
 
@@ -109,7 +109,7 @@ methylation is reduced to a minmum &rarr; totipotent cell types
 
 ### What is imprinting?
 
-* Allele-specific expression of a genev (either from the maternal or paternal allele) via CpG methylation
+* Allele-specific expression of a gene (either from the maternal or paternal allele) via CpG methylation
 
 ### Explain how mosaic colouring of cat fur comes about?
 
@@ -1285,7 +1285,7 @@ to intersect the region to find overlaps
 
 ### How does ChromHMM do the segmentation (underlying model/probability distribution)?
 
-* Unsupervised HMM approach to learn states
+* Unsupervised HMM approach to learn state probabilities
 
 * Genome split into non-overlapping 200bp intervals
 
@@ -1294,7 +1294,7 @@ to intersect the region to find overlaps
 
 * Multivariate bionomial distribution
 
-* Each state is a multivariate bionomial because histone marks are bionomial
+* Each state is a multivariate bionomial because histone marks are bionomial (many tracks &rarr; many histone marks)
 
 * Fixed number of states &rarr; parameter
   + HMM learns transition- and emission probabilities  
@@ -1302,7 +1302,7 @@ to intersect the region to find overlaps
 
 ### How can I compute a unified chromatin state model over several cell types?
 
-* Given multiple cell lines &rarr; comparison of epigenoic activity
+* Given multiple cell lines &rarr; comparison of epigenetic activity
 
 * ChromHMM supports joint learning
 
@@ -1338,13 +1338,19 @@ to intersect the region to find overlaps
 
 * EpiCSeg uses count signal compared to the discretized signals in ChromHMM
 
+* EpiCSeq is also a HMM
+
 * Negative Binomial used to model count data [see lecture 3](#deg)
+
+* Multiple tracks lead to negative multinomial
 
 * Account for over dispersion of histone count data
 
 * Counts are more robust (Discretization is more robust to outliers but creates noise at decision boundaries)
 
-* Improves correlation with actual transcription
+* Improves correlation with actual transcription (predict expression from chromatin states of the gene)
+
+* Improves annotation of TSS (Regions labeled as promoters overlapping with annotated TSS)
 
 * Improves robustness of segmentation between biological replicates
   + high agreement expected
@@ -1363,7 +1369,7 @@ to intersect the region to find overlaps
   + Differential chromatin domains &rarr; local score statistic 
   + Calculated along bins
   
-* Local score statistic &rarr; given a sequence of scores find subsegments of maximum positive score
+* Local score statistic &rarr; given a sequence of scores find subsegments of maximum positive score (possible in linear time)
   + p-value can calculated for each subsegment
   + Scores in random sequences follow Gumbel distribution &rarr; null distribution
 
@@ -1382,7 +1388,7 @@ to intersect the region to find overlaps
 
 * Compared to single differential peaks CDCs always performs better (F1-score, Accuracy)
 
-### Why can use differential chromatin domains to reason about similarity of cell types?
+### Why can we use differential chromatin domains to reason about similarity of cell types?
 
 * Similar tissues/ cell types will have very similar chromatin &rarr; less DCDs
 
