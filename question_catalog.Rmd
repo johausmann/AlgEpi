@@ -738,7 +738,7 @@ to intersect the region to find overlaps
 * Bayesian tree: conditional on __one__ previous position
 
 * SLIM (Sparse local inhomogeneous mixture model): Mixture of conditional contributions for different previous and current position
-  + Could be model with many parameters
+  + Could be modeled with many parameters
   + Therefore some of the weights are pushed to 0
   + Inhomogeneous, because the dependencies and probabilities for each position can be different
   + All the other models are an instance of the SLIM model
@@ -767,7 +767,7 @@ to intersect the region to find overlaps
 * NOMe
   + GC has max. value, because this is measured
   + No bias adjacent to GC position
-  + Position on left and right are not biased, because GCGs are excluded
+  + Positions on the left and right are not biased, because GCGs are excluded
   + Methylation pattern around GC methylation
   
 * For all assays preferences in the minor groove around the cutting/methylation position were found
@@ -848,7 +848,7 @@ to intersect the region to find overlaps
 
 * Only L1 norm: lasso
 
-* Only L2 norm: ridge (see image from question above) &rarr; encurages grouping effects
+* Only L2 norm: ridge &rarr; encurages grouping effects
 
 ![Elastic Net](media/lecture8_elastic_net.png){width=70%}
 
@@ -897,7 +897,7 @@ to intersect the region to find overlaps
 
 * Window based: Window around TSS &rarr; all peak within are associated with gene
 
-* Nearest gene: Assign peak to nearest gene (peak-centric view)
+* Nearest gene: Assign peaks to nearest gene (peak-centric view)
 
 * Both methods are imperfect &rarr; biases
 
@@ -942,7 +942,7 @@ to intersect the region to find overlaps
   + positive or negative effect on gene expression
 
 * Open chromatin
-  + TSS &rarr TF binding to promoter regions
+  + TSS &rarr; TF binding to promoter regions
   + DNA devoid of nuleosome &rarr; TF binding
  
 * Regions of enhancer associated histone marks
@@ -1054,7 +1054,7 @@ to intersect the region to find overlaps
 
 ### What are disadvantages of the unified peaks approach?
 
-* For example gene unified peaks model did not work very well
+* For example genes unified peaks model did not work very well
 
 * A lot of open chromatin signal in front, in body and after the gene
 
@@ -1162,7 +1162,7 @@ to intersect the region to find overlaps
 
 * B-compartment close to lamina nucleus &rarr; lamina associated domains (larger TADs)
 
-* A-compartment inside and may co occur with speckless
+* A-compartment inside and may co occur with speckles
 
 * Agreement of TADs and epigenomic organisation and gene expression
 
