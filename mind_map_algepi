@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-08-02T05:12:08.981Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36" etag="zIoQQHS4E1NO2ytg2hT2" version="20.2.2" type="github">
+<mxfile host="app.diagrams.net" modified="2022-08-02T07:24:16.097Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36" etag="KNQF6kiEcICNXpYvUMSU" version="20.2.2" type="github">
   <diagram id="6a731a19-8d31-9384-78a2-239565b7b9f0" name="Page-1">
     <mxGraphModel dx="2292" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
       <root>
@@ -1103,18 +1103,18 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="ASTagbs-2DhIQoU88C_6-1549" value="Dips in peaks/signal&lt;br&gt;TF hinders enzyme &lt;br&gt;to cut" style="rounded=1;fillColor=#f5af58;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="1000" y="-132.52" width="120" height="60" as="geometry" />
+          <mxGeometry x="1080" y="-132.52" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="ASTagbs-2DhIQoU88C_6-1550" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="1396" target="ASTagbs-2DhIQoU88C_6-1549" edge="1">
+        <mxCell id="ASTagbs-2DhIQoU88C_6-1550" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;" parent="1" source="1396" target="ASTagbs-2DhIQoU88C_6-1549" edge="1">
           <mxGeometry x="3.5" y="-281.02" width="100" height="100" as="geometry">
             <mxPoint x="1120.5593908894712" y="-42.92589563798586" as="sourcePoint" />
             <mxPoint x="103.5" y="-281.02" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="ASTagbs-2DhIQoU88C_6-1556" value="Starting point for&lt;br&gt;binding motif search" style="rounded=1;fillColor=#f5af58;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="850" y="-32.52" width="120" height="40" as="geometry" />
+          <mxGeometry x="931" y="-122.52000000000001" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="ASTagbs-2DhIQoU88C_6-1557" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="1396" target="ASTagbs-2DhIQoU88C_6-1556" edge="1">
+        <mxCell id="ASTagbs-2DhIQoU88C_6-1557" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" parent="1" source="1396" target="ASTagbs-2DhIQoU88C_6-1556" edge="1">
           <mxGeometry x="-176.5" y="-198.5" width="100" height="100" as="geometry">
             <mxPoint x="880" y="50.000000000000014" as="sourcePoint" />
             <mxPoint x="-76.5" y="-198.5" as="targetPoint" />
@@ -1147,10 +1147,10 @@
             <mxPoint x="-196.5" y="-176.01999999999998" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ASTagbs-2DhIQoU88C_6-1566" value="Model strand &amp;amp;&lt;br&gt;decomposition of signal" style="rounded=1;fillColor=#f5af58;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="930" y="306.5" width="140" height="73.5" as="geometry" />
+        <mxCell id="ASTagbs-2DhIQoU88C_6-1566" value="Model strand bias adding&lt;br&gt;strand specific states" style="rounded=1;fillColor=#f5af58;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#FFFFFF;" parent="1" vertex="1">
+          <mxGeometry x="990" y="306.5" width="140" height="43.5" as="geometry" />
         </mxCell>
-        <mxCell id="ASTagbs-2DhIQoU88C_6-1567" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="1394" target="ASTagbs-2DhIQoU88C_6-1566" edge="1">
+        <mxCell id="ASTagbs-2DhIQoU88C_6-1567" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" parent="1" source="1394" target="ASTagbs-2DhIQoU88C_6-1566" edge="1">
           <mxGeometry x="-146.5" y="-95.49999999999997" width="100" height="100" as="geometry">
             <mxPoint x="1090" y="336.5" as="sourcePoint" />
             <mxPoint x="-46.5" y="-95.49999999999997" as="targetPoint" />
@@ -1621,7 +1621,7 @@
         <mxCell id="XDuMAj8rV0SLUvTi1W8s-1626" value="GWAS SNPs" style="rounded=1;fillColor=#00FFFF;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#000000;" parent="1" vertex="1">
           <mxGeometry x="-442" y="1653.9299999999998" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="XDuMAj8rV0SLUvTi1W8s-1627" value="" style="edgeStyle=none;endArrow=none;strokeWidth=6;strokeColor=#00FFFF;html=1;entryX=0.093;entryY=0.787;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="XDuMAj8rV0SLUvTi1W8s-1624" target="1515" edge="1">
+        <mxCell id="XDuMAj8rV0SLUvTi1W8s-1627" value="" style="edgeStyle=none;endArrow=none;strokeWidth=6;strokeColor=#00FFFF;html=1;entryX=0.05;entryY=0.752;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="XDuMAj8rV0SLUvTi1W8s-1624" target="1515" edge="1">
           <mxGeometry x="-1109.74" y="1266.1799999999998" width="100" height="100" as="geometry">
             <mxPoint x="-428.99" y="1182.9299999999998" as="sourcePoint" />
             <mxPoint x="823.7200000000003" y="1431.85" as="targetPoint" />
@@ -1916,6 +1916,33 @@
           <mxGeometry x="-2013.58" y="139.45000000000005" width="100" height="100" as="geometry">
             <mxPoint x="-790" y="222.73000000000002" as="sourcePoint" />
             <mxPoint x="-705" y="222.73000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1_LxdIRXJVPCFXoa9PdB-1545" value="Decomposition of signal&lt;br&gt;into fragment lengths" style="rounded=1;fillColor=#f5af58;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="830" y="306.5" width="140" height="43.5" as="geometry" />
+        </mxCell>
+        <mxCell id="1_LxdIRXJVPCFXoa9PdB-1546" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" target="1_LxdIRXJVPCFXoa9PdB-1545" source="1394">
+          <mxGeometry x="-323" y="-49.97999999999997" width="100" height="100" as="geometry">
+            <mxPoint x="823.5" y="321.5" as="sourcePoint" />
+            <mxPoint x="-223" y="-49.97999999999997" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1_LxdIRXJVPCFXoa9PdB-1547" value="Segmentation based&lt;br&gt;--&amp;gt; Open chromatin" style="rounded=1;fillColor=#f5af58;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="800" y="-72.27000000000001" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="1_LxdIRXJVPCFXoa9PdB-1548" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" target="1_LxdIRXJVPCFXoa9PdB-1547" source="1396">
+          <mxGeometry x="-307.5" y="-122" width="100" height="100" as="geometry">
+            <mxPoint x="899" y="43.98000000000002" as="sourcePoint" />
+            <mxPoint x="-207.5" y="-122" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1_LxdIRXJVPCFXoa9PdB-1549" value="Site centric&lt;br&gt;--&amp;gt; classify motifs as&lt;br&gt;bound/unbound" style="rounded=1;fillColor=#f5af58;strokeColor=none;strokeWidth=3;shadow=0;html=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="800" y="4.53" width="120" height="58.77" as="geometry" />
+        </mxCell>
+        <mxCell id="1_LxdIRXJVPCFXoa9PdB-1550" value="" style="edgeStyle=none;endArrow=none;strokeWidth=3;strokeColor=#F5AF58;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" target="1_LxdIRXJVPCFXoa9PdB-1549" source="1396">
+          <mxGeometry x="-307.5" y="-64.75" width="100" height="100" as="geometry">
+            <mxPoint x="1000" y="34.73000000000002" as="sourcePoint" />
+            <mxPoint x="-207.5" y="-64.75" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
