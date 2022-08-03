@@ -548,7 +548,7 @@ methylation is reduced to a minimum &rarr; totipotent cell types
 
 * Target: quantify differences in DNA methylation between 2 sample groups
 
-* Based on CpGs and genomic regions of interest (e.g. found by MethylSeekR, annotation or promotor regions,...)
+* Based on CpGs and genomic regions of interest (e.g. found by MethylSeekR, annotation or promoter regions,...)
 
 * LIMMA Model (easy integration of co-variates e.g. batch effects )
   + use methylation value (ratio of methylated against unmethylated CpGs)
@@ -1043,7 +1043,7 @@ to intersect the region to find overlaps
   
 * Segmentation for __each__ gene &rarr; could lead to slightly different segments for the same enhancer
 
-### Why are STICHTIT REMs much shorter than for Genehancer?
+### Why are STICHIT REMs much shorter than for Genehancer?
 
 * Genehancer = Validated enhancers from VISTA-db linked to genes
   + defined by p300 and other technologies &rarr; large domains
@@ -1226,8 +1226,8 @@ to intersect the region to find overlaps
   2. Move square and find square with minimum interaction / minima in signal &rarr; boundary
   3. Filter false positive (overall not many interactions in region but local minimum)
       + compare between and within interaction using wilcox rank sum test
-      + __between__ interaction = signal in bin
-      + __within__ interaction = signal in upstream and downstream windows
+      + __between__ interaction = signal in upstream and downstream windows
+      + __within__ interaction = signal in bin
   * To check correctness: CTCF ChIP-seq signal at boundaries, PolymeraseII &rarr; stop's cohesine at least some time TSS
 
 * HiCCUPS (Juicer)
@@ -1338,7 +1338,7 @@ to intersect the region to find overlaps
 
 * EpiCSeg uses count signal compared to the discretized signals in ChromHMM
 
-* EpiCSeq is also a HMM
+* EpiCSeg is also a HMM
 
 * Negative Binomial used to model count data [see lecture 3](#deg)
 
@@ -1417,4 +1417,110 @@ to intersect the region to find overlaps
   + chromatin state information is able to explain difference e.g. different cell types generated or amount of differentiation
 
 
+# Tool overview
 
+## RNA-seq
+
+* Salmon
+  * Transcript expression
+  * quasi-mapping, nutzt EM um GC-, fragment length, read-start- and positional(3')-bias zu berücksichtigen
+
+## ChIP
+
+* MACS2
+  * Peak calling
+  * Genom in windows aufteilen, prüfen ob Signal statistisch höher (als max aus background, 1K, 5K...), windows mergen, read shifting um finalen Peak zu erhalten
+* Bdgdiff
+  * Differential peak calling ohne Replikate
+  * Input sind Bedgraph Dateien (Pileups), Peaks callen (binning based), über Bedingungen differenzielle Peaks, keine Peaks oder gleiche Peaks in samples annotieren
+* diffBind
+  * Differential peak calling mit Replikaten (nur ChIP Daten)
+  * Input sind Peaks von unabhängigen Caller, ChIP reads in Peaks zählen, DESeq2 für statistischen Test 
+* HistoneHMM
+  * Differential peak calling mittels HMM
+  * Reads in bins zählen, Übergänge zwischen Zuständen (diff in 1, diff in 2, peak beide, kein peak in beiden) lernen
+
+## Methylation
+
+* MethylSeekR
+  * Partially methylated domain calling
+  * Sliding window, Beta Bionmial Verteilung verwenden um Methylierungswert zu modellieren, &alpha; < 1: polarisiert, &alpha; > PMD
+* RnBeads
+  * Differential methylation calling
+  * Regionen vorgeben (z.B. MethylSeekR, annotation oder Promotor regionen), Matrix von Methylierungswerten erzeugen und LIMMA Modell fitten
+
+# Open Chromatin
+
+* gNOMeHMM
+  * Open Chromatin von NOMe Daten
+  * GCs suchen mit hohem Openness Wert (methylierung), gruppieren von adjazenten GCs mit hohem Wert um offene Regionen zu finden &rarr; peaks
+  * Binomiales HMM mit 2 Zuständen (offen, zu) über die Durchschnittliche Methylierung in den Regionen
+  * Fisher’s exact Test auf offene Regionen, anschließend FDR
+* JAMM
+  * Open Chromatin from DNaseI/ATAC
+  * Suche nach enriched Windows mit gutem Signal to Noise Ratio, Bins zu Windows zusammenfügen (unterschiedliche Größen)
+  * Gaussian Mixture pro Chromosom der Signalwerte in den Windows, Peaks in Windows finden indem Regionen/Nucleotide dem größten Cluster zugeordnet werden
+  * p-Werte von Mann Whitney U und FDR
+* HMMRATAC
+  * Open Chromatin from ATAC
+  * Signal in unterschiedliche Fragmentlängen aufteilen
+  * Zustände: open (Center), background und Nucleosom (adjazent zum Center) 
+
+## Footprint
+
+* HINT
+  * Footpring calling mit ATAC/DNaseI Daten über HMM
+  * Signal normalisierung und cleavage bias Korrektur mittels Position dependency model (PDM), Fragmentlängen Auftrennung
+  * Savitzky Golay Filter, semi-supervised HMM mit einem TF-ChIP-seq Datensatz trainieren
+
+## Gene expression prediction
+
+* TEPIC
+  * TF binding und Open Chromatin Daten verwenden, um Genexpression vorherzusagen
+  * Peaks TSS zuordnen (window oder nearest), TF affinität in zugeordneten Peaks berechnen (TRAP)
+  * Regualtor Score für jede TF Gen Kombination berechen, Summe der TF Affinitätswerte skaliert mit der Signalintensität gewichtet nach Entfernung zu TSS
+  * Lineares Modell (INVOKE) fiten
+
+## REMs
+
+* RFECS
+  * Random Forest um p300 Bindestellen (proxy für REMs) mittels Histon ChIP vorherzusagen
+  * Features sind Histon ChIP-seq Signale
+* STICHIT
+  * Supervised Segmentation um REMs zu identifizieren über DNaseI Daten
+  * Expressionswerte diskretisieren, Genom in Bins einteilen und Signal messen, für jedes Gen prüfen, in welchen Bins die Expression mit DNaseI Signal korreliert
+  * Minimum description length: Modell mit bestem Kompromiss aus predictive power und interpretierbarkeit (nicht zu kleine Segmente)
+
+## 3D
+
+* TopDom
+  * Topologically Associated Domain (TAD) Grenzen identifizieren
+  * Über jede Position der Diagonale der Kontaktmatrix laufen, lokale Minima der Interaktion finden
+  * Falsch positive entfernen mit Wilcox Rank sum Test (vergleich within und between)
+* HiCCUPS
+  * Topologically Associated Domains (TAD) identifizieren
+  * Pipeline mit Chimera handling, merging, sorting, duplicate removal und map creation
+  * Loops identifizieren, indem adjazente Pixel mit höherer Anzahl an Kontakten im Vergleich zum lokalen Background
+  * GPU für große Datenmengen
+  * Quality control über CTCF Bindemotive
+
+## State Segmentation
+
+* ChromHMM
+  * Unsupervised HMM um Chromatin state segmentation aus verschiedenen Histon ChIP-seq Daten abzuleiten
+  * Genom in nicht überlappende Bins aufteilen, Histon Signal diskretisieren, Multivariate Binomial Verteilung
+  * Anzahl der States über Parameter festgelegt
+* EpiCSeg
+  * Unsupervised HMM um Chromatin state segmentation aus verschiedenen Histon ChIP-seq Daten abzuleiten
+  * Genom in nicht überlappende Bins aufteilen, Histon Signal Count Daten &rarr; Negative Multinomial Verteilung
+  * Verbessert: Korrelation mit Transkription, annotierten TSS, Ähnlichkeit der Replikate
+* SCIDDO
+  * Finden von Differenziellen Chromatin Domänen (Differential chromatin domains &rarr; DCDs)
+  * Chromatin States und Emissionen von anderem Tools nehmen (z.B. ChromHMM)
+  * Emissionswahrscheinlichkeiten in State dissimilarity Matrix überführen
+  * Entlang des Genoms laufen und mittels dissimilarity Matrix bewerten, subsegment mit maximalen Score finden (local score statistic), p-Wert basierend auf Gumble Distribution berechnen 
+* ChromDet
+  * Chromatin Determining Regionen (CDR) suchen (Regionen/Kombinationen von Chromatin states, die Zelltypen/Gruppen von Zelltypen unterscheiden)
+  * Chromatin State Segmentation mit vereinfachtem ChromHMM durchführen, basierend auf Segmenten multiple correspondence analysis (MDA) durchführen, um ähnliche Samples zu finden
+  * zweite MDA durchführen um Region space zu erhalten, um dann die Information aus Sample space auf Region space zu projizieren
+  * Dadurch erhält man State Patterns die gemeinsam in den Samples auftreten
